@@ -1,5 +1,6 @@
-import type { ColumnDef } from "@tanstack/vue-table";
 import { createColumnHelper } from "@tanstack/vue-table"
+import { h } from "vue";
+import { cn } from "@/lib/utils";
 
 export interface Customer {
     id: number,
@@ -29,8 +30,50 @@ export interface Customer {
 
 const columnHelper = createColumnHelper<Customer>();
 
-export const defaultColumns = [
+export const customerColumns = [
     columnHelper.accessor(row => `${row.first_name} ${row.last_name}`, {
         id: 'full_name',
+        header: 'Full Name'
+    }),
+    columnHelper.accessor(row => row.email, {
+        id: 'email',
+        header: 'Email'
+    }),
+    columnHelper.accessor(row => row.gender, {
+        id: 'gender',
+        header: 'Gender',
+        cell: props => {
+            const gender = props.getValue();
+
+            if (!gender) { 
+                return '-' 
+            }
+
+            let genderClass = 'bg-gray-300';
+
+            if (gender === 'Female') { 
+                genderClass = 'bg-red-400';
+            }
+
+            if (gender === 'Male') {
+                genderClass = 'bg-blue-400';
+            }
+
+            return h('div', { class: cn('text-center border rounded-xl', genderClass) }, gender!)
+        },
     }),
 ];
+
+// columnHelper.group({
+//     header: 'Full Name',
+//     columns: [
+//         columnHelper.accessor(row => row.first_name, {
+//             id: 'first_name',
+//             header: 'First Name'
+//         }),
+//         columnHelper.accessor(row => row.last_name, {
+//             id: 'last_name',
+//             header: 'Last Name'
+//         })
+//     ]
+// })

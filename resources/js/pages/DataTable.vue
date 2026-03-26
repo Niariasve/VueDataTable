@@ -1,6 +1,6 @@
 <script setup lang='ts'>
-    import { Customer } from '@/types';
-
+    import { DataTable } from '@/components/ui/data-table';
+import { Customer, customerColumns } from '@/types';
 
     defineProps<{
         customers: Customer[],
@@ -10,9 +10,7 @@
 <template>
     <div class="grid place-items-center py-20">
         <div class="container">
-            <div v-for="(c, index) in customers" :key="index">
-                <p><span class="font-bold">Name: </span>{{ c.full_name }}</p>
-            </div>
+            <DataTable :columns="customerColumns" :data="customers" />
         </div>
     </div>
 </template>
