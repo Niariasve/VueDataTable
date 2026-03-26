@@ -29,6 +29,8 @@ export interface Customer {
 
 const columnHelper = createColumnHelper<Customer>();
 
-export const customerColumns: ColumnDef<Customer>[] = [
-
+export const defaultColumns = [
+    columnHelper.accessor(row => `${row.first_name} ${row.last_name}`, {
+        id: 'full_name',
+    }),
 ];
