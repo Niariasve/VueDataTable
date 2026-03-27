@@ -1,5 +1,6 @@
 import { createColumnHelper } from "@tanstack/vue-table"
 import { h } from "vue";
+import CustomersTableActions from "@/components/CustomersTableActions.vue";
 import { cn, formatDate } from "@/lib/utils";
 
 export interface Customer {
@@ -78,5 +79,10 @@ export const customerColumns = [
     columnHelper.accessor(row => row.state, {
         id: 'state',
         header: 'State'
+    }),
+    columnHelper.display({
+        id: 'actions',
+        header: 'Actions',
+        cell: () => h(CustomersTableActions),
     }),
 ];
