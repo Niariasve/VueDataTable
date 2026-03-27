@@ -10,11 +10,15 @@
         TableHeader,
         TableRow,
     } from '@/components/ui/table'
+import DataTablePagination from './DataTablePagination.vue';
 
-    const props = defineProps<{
+    const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
         data: TData[],
-    }>();
+        showFooter?: boolean,
+    }>(), {
+        showFooter: true,
+    });
 
     const table = useVueTable({
         get data() { return props.data },
@@ -49,7 +53,7 @@
                     </TableCell>
                 </template>
             </TableBody>
-            <TableFooter>
+            <TableFooter v-if="showFooter">
                 <TableRow v-for="footerGroup in table.getFooterGroups()" :key="footerGroup.id">
                     <TableHead v-for="header in footerGroup.headers" :key="header.id" :colspan="header.colSpan">
                         <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.footer"
@@ -58,5 +62,8 @@
                 </TableRow>
             </TableFooter>
         </Table>
+    </div>
+    <div class="flex items-center justify-center md:justify-end py-4 space-x-2">
+        <DataTablePagination :table="table" />
     </div>
 </template>
