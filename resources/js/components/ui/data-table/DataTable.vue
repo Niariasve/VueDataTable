@@ -1,5 +1,5 @@
-<script setup lang="ts" generic="TData, TValue">
-    import { ColumnDef, FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
+<script setup lang="ts" generic="TData">
+    import { AccessorFnColumnDef, ColumnDef, FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
 
     import {
         Table,
@@ -11,7 +11,7 @@
     } from '@/components/ui/table'
 
     const props = defineProps<{
-        columns: ColumnDef<TData, TValue>[],
+        columns: ColumnDef<TData, any>[],
         data: TData[],
     }>();
 

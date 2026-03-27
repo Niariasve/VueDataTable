@@ -1,6 +1,6 @@
 import { createColumnHelper } from "@tanstack/vue-table"
 import { h } from "vue";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 export interface Customer {
     id: number,
@@ -33,17 +33,21 @@ const columnHelper = createColumnHelper<Customer>();
 export const customerColumns = [
     columnHelper.accessor(row => `${row.first_name} ${row.last_name}`, {
         id: 'full_name',
-        header: 'Full Name'
+        header: 'Full Name',
     }),
     columnHelper.accessor(row => row.email, {
         id: 'email',
         header: 'Email'
     }),
+    columnHelper.accessor(row => row.phone, {
+        id: 'phone',
+        header: 'Phone',
+    }),
     columnHelper.accessor(row => row.gender, {
         id: 'gender',
         header: 'Gender',
-        cell: props => {
-            const gender = props.getValue();
+        cell: row => {
+            const gender = row.getValue();
 
             if (!gender) { 
                 return '-' 
@@ -59,21 +63,20 @@ export const customerColumns = [
                 genderClass = 'bg-blue-400';
             }
 
-            return h('div', { class: cn('text-center border rounded-xl', genderClass) }, gender!)
+            return h('div', { class: cn('text-center border rounded-xl', genderClass) }, gender!);
         },
     }),
+    columnHelper.accessor(row => row.birth_date, {
+        id: 'birth_date',
+        header: 'Birth Date',
+        cell: row => formatDate(row.getValue()),
+    }),
+    columnHelper.accessor(row => row.country, {
+        id: 'country',
+        header: 'Country',
+    }),
+    columnHelper.accessor(row => row.state, {
+        id: 'state',
+        header: 'State'
+    }),
 ];
-
-// columnHelper.group({
-//     header: 'Full Name',
-//     columns: [
-//         columnHelper.accessor(row => row.first_name, {
-//             id: 'first_name',
-//             header: 'First Name'
-//         }),
-//         columnHelper.accessor(row => row.last_name, {
-//             id: 'last_name',
-//             header: 'Last Name'
-//         })
-//     ]
-// })
