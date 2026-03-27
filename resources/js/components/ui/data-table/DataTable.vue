@@ -5,6 +5,7 @@
         Table,
         TableBody,
         TableCell,
+        TableFooter,
         TableHead,
         TableHeader,
         TableRow,
@@ -27,7 +28,7 @@
         <Table>
             <TableHeader>
                 <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-                    <TableHead v-for="header in headerGroup.headers" :key="header.id">
+                    <TableHead v-for="header in headerGroup.headers" :key="header.id" :colspan="header.colSpan">
                         <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
                             :props="header.getContext" />
                     </TableHead>
@@ -48,6 +49,14 @@
                     </TableCell>
                 </template>
             </TableBody>
+            <TableFooter>
+                <TableRow v-for="footerGroup in table.getFooterGroups()" :key="footerGroup.id">
+                    <TableHead v-for="header in footerGroup.headers" :key="header.id" :colspan="header.colSpan">
+                        <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.footer"
+                            :props="header.getContext()" />
+                    </TableHead>
+                </TableRow>
+            </TableFooter>
         </Table>
     </div>
 </template>

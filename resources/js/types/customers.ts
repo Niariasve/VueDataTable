@@ -35,18 +35,23 @@ export const customerColumns = [
     columnHelper.accessor(row => `${row.first_name} ${row.last_name}`, {
         id: 'full_name',
         header: 'Full Name',
+        // footer: props => props.column.id,
+        footer: 'Full Name',
     }),
     columnHelper.accessor(row => row.email, {
         id: 'email',
-        header: 'Email'
+        header: 'Email',
+        footer: 'Email',
     }),
     columnHelper.accessor(row => row.phone, {
         id: 'phone',
         header: 'Phone',
+        footer: 'Phone',
     }),
     columnHelper.accessor(row => row.gender, {
         id: 'gender',
         header: 'Gender',
+        footer: 'Gender',
         cell: row => {
             const gender = row.getValue();
 
@@ -70,19 +75,23 @@ export const customerColumns = [
     columnHelper.accessor(row => row.birth_date, {
         id: 'birth_date',
         header: 'Birth Date',
+        footer: 'Birth Date',
         cell: row => formatDate(row.getValue()),
     }),
     columnHelper.accessor(row => row.country, {
         id: 'country',
         header: 'Country',
+        footer: 'Country',
     }),
     columnHelper.accessor(row => row.state, {
         id: 'state',
-        header: 'State'
+        header: 'State',
+        footer: 'State',
     }),
     columnHelper.display({
         id: 'actions',
         header: 'Actions',
+        footer: 'Actions',
         cell: () => h(CustomersTableActions),
     }),
 ];
