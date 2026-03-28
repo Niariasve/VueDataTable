@@ -6,7 +6,6 @@
         getCoreRowModel, 
         getPaginationRowModel,
     } from '@tanstack/vue-table';
-
     import {
         Table,
         TableBody,
@@ -31,6 +30,7 @@
         get columns() { return props.columns },
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        debugColumns: true,
     });
 </script>
 
@@ -41,7 +41,7 @@
                 <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
                     <TableHead v-for="header in headerGroup.headers" :key="header.id" :colspan="header.colSpan">
                         <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
-                            :props="header.getContext" />
+                            :props="header.getContext()" />
                     </TableHead>
                 </TableRow>
             </TableHeader>

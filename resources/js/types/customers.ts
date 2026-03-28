@@ -1,6 +1,7 @@
 import { createColumnHelper } from "@tanstack/vue-table"
 import { h } from "vue";
 import CustomersTableActions from "@/components/CustomersTableActions.vue";
+import { DataTableColumnHeader } from "@/components/ui/data-table";
 import { cn, formatDate } from "@/lib/utils";
 
 export interface Customer {
@@ -34,23 +35,44 @@ const columnHelper = createColumnHelper<Customer>();
 export const customerColumns = [
     columnHelper.accessor(row => `${row.first_name} ${row.last_name}`, {
         id: 'full_name',
-        header: 'Full Name',
+        // header: 'Full Name',
+        header: ({ column }) => {
+            return h(DataTableColumnHeader<Customer>, {
+                column: column,
+                title: 'Full Name',
+            })
+        },
         // footer: props => props.column.id,
         footer: 'Full Name',
     }),
     columnHelper.accessor(row => row.email, {
         id: 'email',
-        header: 'Email',
+        header: ({ column }) => {
+            return h(DataTableColumnHeader<Customer>, {
+                column: column,
+                title: 'Email',
+            })
+        },
         footer: 'Email',
     }),
     columnHelper.accessor(row => row.phone, {
         id: 'phone',
-        header: 'Phone',
+        header: ({ column }) => {
+            return h(DataTableColumnHeader<Customer>, {
+                column: column,
+                title: 'Phone',
+            })
+        },
         footer: 'Phone',
     }),
     columnHelper.accessor(row => row.gender, {
         id: 'gender',
-        header: 'Gender',
+        header: ({ column }) => {
+            return h(DataTableColumnHeader<Customer>, {
+                column: column,
+                title: 'Gender',
+            })
+        },
         footer: 'Gender',
         cell: row => {
             const gender = row.getValue();
@@ -74,18 +96,33 @@ export const customerColumns = [
     }),
     columnHelper.accessor(row => row.birth_date, {
         id: 'birth_date',
-        header: 'Birth Date',
+        header: ({ column }) => {
+            return h(DataTableColumnHeader<Customer>, {
+                column: column,
+                title: 'Birth Date',
+            })
+        },
         footer: 'Birth Date',
         cell: row => formatDate(row.getValue()),
     }),
     columnHelper.accessor(row => row.country, {
         id: 'country',
-        header: 'Country',
+        header: ({ column }) => {
+            return h(DataTableColumnHeader<Customer>, {
+                column: column,
+                title: 'Country',
+            })
+        },
         footer: 'Country',
     }),
     columnHelper.accessor(row => row.state, {
         id: 'state',
-        header: 'State',
+        header: ({ column }) => {
+            return h(DataTableColumnHeader<Customer>, {
+                column: column,
+                title: 'State',
+            })
+        },
         footer: 'State',
     }),
     columnHelper.display({
