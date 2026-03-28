@@ -16,8 +16,16 @@
         TableHeader,
         TableRow,
     } from '@/components/ui/table'
+    import {
+        Empty,
+        EmptyDescription,
+        EmptyHeader,
+        EmptyMedia,
+        EmptyTitle,
+    } from '@/components/ui/empty'
     import DataTablePagination from './DataTablePagination.vue';
     import ColumnToggle from './ColumnToggle.vue';
+import { FolderOpen } from 'lucide-vue-next';
 
     const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
@@ -59,8 +67,18 @@
                     </TableRow>
                 </template>
                 <template v-else>
-                    <TableCell :colspan="columns.length" class="h-24 text-center">
-                        No Results.
+                    <TableCell :colspan="columns.length">
+                        <Empty>
+                            <EmptyHeader>
+                                <EmptyMedia  variant="icon">
+                                    <FolderOpen />
+                                </EmptyMedia>
+                                <EmptyTitle>No Records Yet</EmptyTitle>
+                                <EmptyDescription>
+                                    You haven't created any records yet. Get started by creating a record.
+                                </EmptyDescription>
+                            </EmptyHeader>
+                        </Empty>
                     </TableCell>
                 </template>
             </TableBody>

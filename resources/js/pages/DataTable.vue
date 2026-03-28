@@ -1,6 +1,6 @@
 <script setup lang='ts'>
     import { DataTable } from '@/components/ui/data-table';
-import { Customer, customerColumns } from '@/types';
+    import { Customer, customerColumns } from '@/types';
 
     defineProps<{
         customers: Customer[],
