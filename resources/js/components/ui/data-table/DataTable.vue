@@ -1,10 +1,11 @@
 <script setup lang="ts" generic="TData">
-    import { 
+    import {
         useVueTable,
-        ColumnDef, 
-        FlexRender, 
-        getCoreRowModel, 
+        ColumnDef,
+        FlexRender,
+        getCoreRowModel,
         getPaginationRowModel,
+        getSortedRowModel,
     } from '@tanstack/vue-table';
     import {
         Table,
@@ -16,6 +17,7 @@
         TableRow,
     } from '@/components/ui/table'
     import DataTablePagination from './DataTablePagination.vue';
+    import ColumnToggle from './ColumnToggle.vue';
 
     const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
@@ -30,11 +32,13 @@
         get columns() { return props.columns },
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         debugColumns: true,
     });
 </script>
 
 <template>
+    <ColumnToggle :table />
     <div class="border rounded-md">
         <Table>
             <TableHeader>
