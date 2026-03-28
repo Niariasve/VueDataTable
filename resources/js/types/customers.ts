@@ -128,6 +128,7 @@ export const customerColumns = [
     columnHelper.display({
         id: 'actions',
         header: 'Actions',
+        enableHiding: false,
         footer: 'Actions',
         cell: () => h(CustomersTableActions),
     }),

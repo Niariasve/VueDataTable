@@ -2,7 +2,7 @@
     import type { Table } from '@tanstack/vue-table';
     import { computed } from 'vue';
     import { Eye } from 'lucide-vue-next';
-    import { Button } from '@/components/ui/button'
+    import { Button, ButtonVariants } from '@/components/ui/button'
     import {
         DropdownMenu,
         DropdownMenuCheckboxItem,
@@ -14,9 +14,12 @@
 
     interface ColumnToggleProps {
         table: Table<TData>,
+        buttonSize?: ButtonVariants["size"],
     }
 
-    const props = defineProps<ColumnToggleProps>();
+    const props = withDefaults(defineProps<ColumnToggleProps>(), {
+        buttonSize: "default",
+    });
 
     const columns = computed(() => props.table.getAllColumns().filter((column) => column.getCanHide()));
 </script>
@@ -24,7 +27,7 @@
 <template>
     <DropdownMenu>
         <DropdownMenuTrigger as-child>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" :size="buttonSize">
                 <Eye class="w-4 h-4" />
             </Button>
         </DropdownMenuTrigger>
