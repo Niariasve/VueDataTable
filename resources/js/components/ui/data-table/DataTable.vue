@@ -1,5 +1,11 @@
 <script setup lang="ts" generic="TData">
-    import { AccessorFnColumnDef, ColumnDef, FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
+    import { 
+        useVueTable,
+        ColumnDef, 
+        FlexRender, 
+        getCoreRowModel, 
+        getPaginationRowModel,
+    } from '@tanstack/vue-table';
 
     import {
         Table,
@@ -10,7 +16,7 @@
         TableHeader,
         TableRow,
     } from '@/components/ui/table'
-import DataTablePagination from './DataTablePagination.vue';
+    import DataTablePagination from './DataTablePagination.vue';
 
     const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
@@ -24,6 +30,7 @@ import DataTablePagination from './DataTablePagination.vue';
         get data() { return props.data },
         get columns() { return props.columns },
         getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
     });
 </script>
 
