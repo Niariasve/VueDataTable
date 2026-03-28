@@ -25,7 +25,7 @@
     } from '@/components/ui/empty'
     import DataTablePagination from './DataTablePagination.vue';
     import ColumnToggle from './ColumnToggle.vue';
-import { FolderOpen } from 'lucide-vue-next';
+    import { FolderOpen } from 'lucide-vue-next';
 
     const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
@@ -41,7 +41,6 @@ import { FolderOpen } from 'lucide-vue-next';
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        debugColumns: true,
     });
 </script>
 
@@ -70,7 +69,7 @@ import { FolderOpen } from 'lucide-vue-next';
                     <TableCell :colspan="columns.length">
                         <Empty>
                             <EmptyHeader>
-                                <EmptyMedia  variant="icon">
+                                <EmptyMedia variant="icon">
                                     <FolderOpen />
                                 </EmptyMedia>
                                 <EmptyTitle>No Records Yet</EmptyTitle>
