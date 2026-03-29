@@ -44,7 +44,7 @@
                 <TooltipContent>
                     <p>Visibility</p>
                 </TooltipContent>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" v-on:close-auto-focus="((e: Event) => e.preventDefault())">
                     <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
