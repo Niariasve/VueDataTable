@@ -21,7 +21,7 @@
 </script>
 
 <template>
-    <ButtonGroup>
+    <div class="flex flex-row gap-2">
         <ButtonGroup>
             <Button variant="ghost" size="sm">
                 <ListFilter class="w-4 h-4" />
@@ -32,21 +32,21 @@
             <ColumnToggle :table button-size="sm" />
         </ButtonGroup>
 
-        <ButtonGroup>
-            <Button @click="handleShow" variant="outline" size="sm">
+        <div class="flex flex-row gap-0.5">
+            <Button @click="handleShow" variant="ghost" size="sm">
                 <Search class="w-4 h-4" />
             </Button>
             <Transition name="show">
-                <div v-if="show" class="search-shell">
+                <div v-show="show" class="search-shell">
                     <Input class="h-8 w-56" placeholder="Type to search" />
                 </div>
             </Transition>
-        </ButtonGroup>
+        </div>
         
         <ButtonGroup>
             <Button class="px-6" variant="outline" size="sm">New</Button>
         </ButtonGroup>
-    </ButtonGroup>
+    </div>
 </template>
 
 <style>
