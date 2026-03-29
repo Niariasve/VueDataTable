@@ -1,12 +1,10 @@
 <script setup lang='ts' generic="TData">
-    import {
-        ButtonGroup,
-    } from '@/components/ui/button-group'
+    import { ButtonGroup } from '@/components/ui/button-group'
     import { Button } from '@/components/ui/button';
-    import { ColumnToggle } from '@/components/ui/data-table';
+    import { ColumnToggle, DataTableSearch } from '@/components/ui/data-table';
     import { Table } from '@tanstack/vue-table';
-    import { ChevronsUpDown, ListFilter, Search } from 'lucide-vue-next';
-    import { Input } from '../input';
+    import { ChevronsUpDown, ListFilter } from 'lucide-vue-next';
+    
     import { ref } from 'vue';
 
     interface DataTableActionsProps {
@@ -32,17 +30,8 @@
             <ColumnToggle :table button-size="sm" />
         </ButtonGroup>
 
-        <div class="flex flex-row gap-0.5">
-            <Button @click="handleShow" variant="ghost" size="sm">
-                <Search class="w-4 h-4" />
-            </Button>
-            <Transition name="show">
-                <div v-show="show" class="search-shell">
-                    <Input class="h-8 w-56" placeholder="Type to search" />
-                </div>
-            </Transition>
-        </div>
-        
+        <DataTableSearch :table />
+
         <ButtonGroup>
             <Button class="px-6" variant="outline" size="sm">New</Button>
         </ButtonGroup>
@@ -50,7 +39,6 @@
 </template>
 
 <style>
-
     .show-enter-active,
     .show-leave-active {
         transition:
