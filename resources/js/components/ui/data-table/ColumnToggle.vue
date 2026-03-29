@@ -11,6 +11,12 @@
         DropdownMenuSeparator,
         DropdownMenuTrigger,
     } from '@/components/ui/dropdown-menu'
+    import {
+        Tooltip,
+        TooltipContent,
+        TooltipProvider,
+        TooltipTrigger,
+    } from '@/components/ui/tooltip'
 
     interface ColumnToggleProps {
         table: Table<TData>,
@@ -25,22 +31,30 @@
 </script>
 
 <template>
-    <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-            <Button variant="ghost" :size="buttonSize">
-                <Eye class="w-4 h-4" />
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+    <TooltipProvider>
+        <Tooltip>
+            <DropdownMenu>
+                <TooltipTrigger as-child>
+                    <DropdownMenuTrigger as-child>
+                        <Button variant="ghost" :size="buttonSize">
+                            <Eye class="w-4 h-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p>Visibility</p>
+                </TooltipContent>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
 
-            <DropdownMenuCheckboxItem v-for="column in columns" :key="column.id" class="capitalize"
-                :model-value="column.getIsVisible()" @update:model-value="(value) => column.toggleVisibility(!!value)">
-                {{ column.id }}
-            </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
+                    <DropdownMenuCheckboxItem v-for="column in columns" :key="column.id" class="capitalize"
+                        :model-value="column.getIsVisible()"
+                        @update:model-value="(value) => column.toggleVisibility(!!value)">
+                        {{ column.id }}
+                    </DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </Tooltip>
+    </TooltipProvider>
 </template>
-
-<style></style>
