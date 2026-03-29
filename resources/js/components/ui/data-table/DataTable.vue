@@ -6,6 +6,7 @@
         getCoreRowModel,
         getPaginationRowModel,
         getSortedRowModel,
+        getFilteredRowModel,
     } from '@tanstack/vue-table';
     import {
         Table,
@@ -42,6 +43,8 @@ import DataTableActions from './DataTableActions.vue';
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        globalFilterFn: 'includesString',
     });
 </script>
 

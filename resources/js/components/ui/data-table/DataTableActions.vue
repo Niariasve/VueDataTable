@@ -19,7 +19,7 @@
 </script>
 
 <template>
-    <div class="flex flex-row gap-2">
+    <div class="flex flex-row items-center gap-2 p-2">
         <ButtonGroup>
             <Button variant="ghost" size="sm">
                 <ListFilter class="w-4 h-4" />
@@ -37,32 +37,3 @@
         </ButtonGroup>
     </div>
 </template>
-
-<style>
-    .show-enter-active,
-    .show-leave-active {
-        transition:
-            width 300ms cubic-bezier(0.22, 1, 0.36, 1),
-            opacity 140ms ease,
-            transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-        transform-origin: left center;
-    }
-
-    .show-enter-from,
-    .show-leave-to {
-        width: 0;
-        opacity: 0;
-        transform: translateX(-6px);
-    }
-
-    .show-enter-to,
-    .show-leave-from {
-        width: 14rem;
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .search-shell {
-        overflow: hidden;
-    }
-</style>
