@@ -36,7 +36,6 @@
             props.table.setGlobalFilter(searchValue);
         }
 
-
         showClearSearch.value = searchValue.length > 0;
     });
 
