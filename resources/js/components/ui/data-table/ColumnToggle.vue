@@ -20,12 +20,9 @@
 
     interface ColumnToggleProps {
         table: Table<TData>,
-        buttonSize?: ButtonVariants["size"],
     }
 
-    const props = withDefaults(defineProps<ColumnToggleProps>(), {
-        buttonSize: "default",
-    });
+    const props = defineProps<ColumnToggleProps>();
 
     const columns = computed(() => props.table.getAllColumns().filter((column) => column.getCanHide()));
 </script>
@@ -36,7 +33,7 @@
             <DropdownMenu>
                 <TooltipTrigger as-child>
                     <DropdownMenuTrigger as-child>
-                        <Button variant="ghost" :size="buttonSize">
+                        <Button variant="ghost">
                             <Eye class="w-4 h-4" />
                         </Button>
                     </DropdownMenuTrigger>

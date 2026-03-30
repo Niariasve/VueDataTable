@@ -51,7 +51,7 @@
 
 <template>
     <div class="flex items-center gap-3">
-        <InputGroup class="h-8 w-56">
+        <InputGroup class="w-56">
             <InputGroupInput placeholder="Type to search..." v-model="search" />
 
             <InputGroupAddon align="inline-end">
@@ -62,7 +62,7 @@
         </InputGroup>
 
         <Select v-model="filterBy">
-            <SelectTrigger class="h-8!">
+            <SelectTrigger>
                 <SelectValue placeholder="Select a filter" />
             </SelectTrigger>
             <SelectContent>
@@ -77,7 +77,7 @@
             </SelectContent>
         </Select>
 
-        <Button class="h-8" v-show="filterBy.length" variant="ghost" @click="resetColumnFilters">
+        <Button v-show="filterBy.length" variant="ghost" @click="resetColumnFilters">
             Reset
             <X class="size-4" />
         </Button>

@@ -24,17 +24,17 @@
 
         <ButtonGroup>
             <ButtonGroup>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost">
                     <ListFilter class="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost">
                     <ChevronsUpDown class="w-4 h-4" />
                 </Button>
-                <ColumnToggle :table button-size="sm" />
+                <ColumnToggle :table />
             </ButtonGroup>
             
             <ButtonGroup>
-                <Button class="px-6" variant="outline" size="sm">New</Button>
+                <Button class="px-6" variant="outline">New</Button>
             </ButtonGroup>
         </ButtonGroup>
     </div>
