@@ -36,6 +36,7 @@
             props.table.setGlobalFilter(searchValue);
         }
 
+
         showClearSearch.value = searchValue.length > 0;
     });
 
@@ -69,7 +70,7 @@
                 <SelectGroup>
                     <SelectLabel>Filter By</SelectLabel>
                     <div v-for="column in table.getAllColumns()">
-                        <SelectItem v-if="column.getCanFilter()" class="capitalize" :key="column.id" :value="column.id">
+                        <SelectItem v-if="column.getCanFilter() && column.getIsVisible()" class="capitalize" :key="column.id" :value="column.id">
                             {{ column.columnDef.id }}
                         </SelectItem>
                     </div>
