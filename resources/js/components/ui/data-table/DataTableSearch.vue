@@ -8,9 +8,16 @@
         InputGroupAddon,
         InputGroupButton,
         InputGroupInput,
-        InputGroupText,
-        InputGroupTextarea
     } from '@/components/ui/input-group'
+    import {
+        Select,
+        SelectContent,
+        SelectGroup,
+        SelectItem,
+        SelectLabel,
+        SelectTrigger,
+        SelectValue,
+    } from '@/components/ui/select'
 
     interface DataTableSearchProps {
         table: Table<TData>,
@@ -20,26 +27,59 @@
 
     const search = ref<string>('');
     const showClearSearch = ref<boolean>(false);
+    const filterBy = ref<string>('');
 
-    watch(search, (value) => {
-        props.table.setGlobalFilter(value);
+    watch([search, filterBy], ([searchValue, filterValue]) => {
+        if (filterBy.value.length > 0) {
+            props.table.getColumn(filterValue)?.setFilterValue(searchValue);
+        } else {
+            props.table.setGlobalFilter(searchValue);
+        }
 
-        showClearSearch.value = value.length > 0;
+        showClearSearch.value = searchValue.length > 0;
     });
 
     const clearSearch = () => {
         search.value = '';
     }
+
+    const resetColumnFilters = () => {
+        props.table.resetColumnFilters();
+        filterBy.value = '';
+    }
 </script>
 
 <template>
-    <InputGroup class="h-8 w-56 [--radius:9999px]">
-        <InputGroupInput placeholder="Type to search..." v-model="search" />
+    <div class="flex items-center gap-3">
+        <InputGroup class="h-8 w-56">
+            <InputGroupInput placeholder="Type to search..." v-model="search" />
 
-        <InputGroupAddon align="inline-end">
-            <InputGroupButton v-show="showClearSearch" @click="clearSearch" size="icon-xs">
-                <X />
-            </InputGroupButton>
-        </InputGroupAddon>
-    </InputGroup>
+            <InputGroupAddon align="inline-end">
+                <InputGroupButton v-show="showClearSearch" @click="clearSearch" size="icon-xs">
+                    <X />
+                </InputGroupButton>
+            </InputGroupAddon>
+        </InputGroup>
+
+        <Select v-model="filterBy">
+            <SelectTrigger class="h-8!">
+                <SelectValue placeholder="Select a filter" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    <SelectLabel>Filter By</SelectLabel>
+                    <div v-for="column in table.getAllColumns()">
+                        <SelectItem v-if="column.getCanFilter()" class="capitalize" :key="column.id" :value="column.id">
+                            {{ column.columnDef.id }}
+                        </SelectItem>
+                    </div>
+                </SelectGroup>
+            </SelectContent>
+        </Select>
+
+        <Button class="h-8" v-show="filterBy.length" variant="ghost" @click="resetColumnFilters">
+            Reset
+            <X class="size-4" />
+        </Button>
+    </div>
 </template>

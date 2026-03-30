@@ -94,7 +94,8 @@ export const customerColumns = [
             return h('div', { class: cn('text-center border rounded-xl', genderClass) }, gender!);
         },
     }),
-    columnHelper.accessor(row => row.birth_date, {
+    // columnHelper.accessor(row => row.birth_date, {
+    columnHelper.accessor(row => formatDate(row.birth_date), {
         id: 'birth_date',
         header: ({ column }) => {
             return h(DataTableColumnHeader<Customer>, {
@@ -103,7 +104,8 @@ export const customerColumns = [
             })
         },
         footer: 'Birth Date',
-        cell: row => formatDate(row.getValue()),
+        // cell: row => formatDate(row.getValue()),
+        cell: row => row.getValue(),
     }),
     columnHelper.accessor(row => row.country, {
         id: 'country',
