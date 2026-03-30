@@ -19,21 +19,23 @@
 </script>
 
 <template>
-    <div class="flex flex-row items-center gap-2 p-2">
-        <ButtonGroup>
-            <Button variant="ghost" size="sm">
-                <ListFilter class="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-                <ChevronsUpDown class="w-4 h-4" />
-            </Button>
-            <ColumnToggle :table button-size="sm" />
-        </ButtonGroup>
-
+    <div class="flex flex-row items-center justify-between">
         <DataTableSearch :table />
 
         <ButtonGroup>
-            <Button class="px-6" variant="outline" size="sm">New</Button>
+            <ButtonGroup>
+                <Button variant="ghost" size="sm">
+                    <ListFilter class="w-4 h-4" />
+                </Button>
+                <Button variant="ghost" size="sm">
+                    <ChevronsUpDown class="w-4 h-4" />
+                </Button>
+                <ColumnToggle :table button-size="sm" />
+            </ButtonGroup>
+            
+            <ButtonGroup>
+                <Button class="px-6" variant="outline" size="sm">New</Button>
+            </ButtonGroup>
         </ButtonGroup>
     </div>
 </template>

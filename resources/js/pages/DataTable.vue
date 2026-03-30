@@ -8,7 +8,7 @@
 </script>
 
 <template>
-    <div class="grid place-items-center py-20">
+    <div class="grid place-items-center py-40">
         <div class="container">
             <DataTable :columns="customerColumns" :data="customers" />
         </div>

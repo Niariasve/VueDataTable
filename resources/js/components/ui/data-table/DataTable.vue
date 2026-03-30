@@ -50,7 +50,7 @@ import DataTableActions from './DataTableActions.vue';
 
 <template>
     <div class="flex flex-col gap-2">
-        <DataTableActions class="ml-auto" :table />
+        <DataTableActions :table />
         <div class="border rounded-md">
             <Table>
                 <TableHeader>
