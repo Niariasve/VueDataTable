@@ -1,10 +1,10 @@
 <script setup lang='ts' generic='TData'>
-    import { ChevronDown, Text } from 'lucide-vue-next';
-    import { Table } from '@tanstack/vue-table';
+    import { CaseSensitive } from 'lucide-vue-next';
     import { Badge } from '@/components/ui/badge'
+    import { DraftFilter } from '@/lib/data-table/types';
 
     interface DataTableFilterToolbarProps {
-        table: Table<TData>
+        filters: DraftFilter[],
     }
 
     defineProps<DataTableFilterToolbarProps>();
@@ -12,10 +12,12 @@
 </script>
 
 <template>
-    <Badge class="h-8 gap-2 cursor-pointer hover:bg-primary/90">
-        <Text class="size-4" />
-        Badge
-    </Badge>
+    <div class="flex flex-wrap gap-2">
+        <Badge v-for="filter in filters" :key="filter.id" class="h-8 gap-2 cursor-pointer hover:bg-primary/90">
+            <CaseSensitive class="size-4!" />
+            {{ filter.label }}
+        </Badge>
+    </div>
 </template>
 
 <style></style>

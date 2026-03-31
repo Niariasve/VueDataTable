@@ -30,6 +30,7 @@
     } from '@/components/ui/empty'
     import { DataTablePagination, DataTableActions, DataTableFilterToolbar } from '.';
     import { dataTableFilterFns } from '@/lib/data-table/filter-fns';
+    import { DraftFilter } from '@/lib/data-table/types';
 
 
     const props = withDefaults(defineProps<{
@@ -41,6 +42,7 @@
     });
 
     const columnFilters = ref<ColumnFiltersState>([]);
+    const draftFilters = ref<DraftFilter[]>([]);
 
     const table = useVueTable({
         get data() { return props.data },
@@ -60,13 +62,32 @@
         //     dataTextTable: dataTableFilterFns.dataTableText
         // },
     });
+
+    const handleDraftFilter = (columnId: string) => {
+        const column = table.getColumn(columnId);
+
+        if (!column) {
+            return;
+        }
+
+        const label = column.columnDef.meta?.dataTable.label ?? column.id;
+
+        const alreadyExists = draftFilters.value.some(filter => filter.id === columnId);
+
+        if (alreadyExists) return;
+
+        draftFilters.value.push({
+            id: columnId,
+            label,
+        });
+    } 
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <DataTableActions :table="table" />
+        <DataTableActions :table="table" @add-filter="handleDraftFilter" />
         <div>
-            <DataTableFilterToolbar :table="table" />
+            <DataTableFilterToolbar :filters="draftFilters" />
         </div>
         <div class="border rounded-md">
             <Table>

@@ -17,6 +17,7 @@
         TooltipTrigger,
     } from '@/components/ui/tooltip'
     import { Button } from '@/components/ui/button';
+import { DataTableColumnMeta } from '@/lib/data-table/types';
 
     interface FilterProps {
         table: Table<TData>,
@@ -24,7 +25,17 @@
 
     const props = defineProps<FilterProps>();
 
-    const columns = computed(() => props.table.getAllColumns().filter((columns) => columns.getCanFilter()));
+    const emit = defineEmits<{
+        (e: 'add-filter', columnId: string): void,
+    }>();
+
+    // const columns = computed(() => props.table.getAllColumns().filter((columns) => columns.getCanFilter()));
+
+    const columns = computed(() => 
+        props.table.getAllColumns().filter(column => {
+            return Boolean(column.columnDef.meta?.dataTable)
+        })
+    );
 </script>
 
 <template>
@@ -46,8 +57,8 @@
                     <DropdownMenuSeparator />
 
                     <DropdownMenuCheckboxItem v-for="column in columns" :key="column.id" class="capitalize"
-                        :model-value="column.getIsFiltered()">
-                        {{ column.id }}
+                        :model-value="column.getIsFiltered()" @select="emit('add-filter', column.id)">
+                        {{ column.columnDef.meta?.dataTable.label ?? column.id }}
                     </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
             </DropdownMenu>

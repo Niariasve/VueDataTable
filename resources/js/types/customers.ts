@@ -44,6 +44,12 @@ export const customerColumns = [
         },
         footer: 'Full Name',
         filterFn: dataTableTextFilterFn,
+        meta: {
+            dataTable: {
+                label: 'Full Name',
+                type: 'text',
+            }
+        }
     }),
     columnHelper.accessor(row => row.email, {
         id: 'email',

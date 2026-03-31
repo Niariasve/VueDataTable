@@ -4,15 +4,19 @@
     import { ColumnToggle, DataTableSearch } from '@/components/ui/data-table';
     import { Table } from '@tanstack/vue-table';
     import { ChevronsUpDown, ListFilter } from 'lucide-vue-next';
-    
+
     import { ref } from 'vue';
-import Filter from './Filter.vue';
+    import Filter from './Filter.vue';
 
     interface DataTableActionsProps {
         table: Table<TData>,
     }
 
     defineProps<DataTableActionsProps>();
+
+    const emit = defineEmits<{
+        (e: 'add-filter', columnId: string): void;
+    }>();
 
     const show = ref<boolean>(false);
 
@@ -25,13 +29,13 @@ import Filter from './Filter.vue';
 
         <ButtonGroup>
             <ButtonGroup>
-                <Filter :table="table" />
+                <Filter :table="table" @add-filter="emit('add-filter', $event)" />
                 <Button variant="ghost">
                     <ChevronsUpDown class="w-4 h-4" />
                 </Button>
                 <ColumnToggle :table="table" />
             </ButtonGroup>
-            
+
             <ButtonGroup>
                 <Button class="px-6" variant="outline">New</Button>
             </ButtonGroup>

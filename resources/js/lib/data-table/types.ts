@@ -1,3 +1,8 @@
+export type DraftFilter = {
+    id: string,
+    label: string,
+}
+
 export type TextFilterOperator =
     | 'is'
     | 'is_not'
