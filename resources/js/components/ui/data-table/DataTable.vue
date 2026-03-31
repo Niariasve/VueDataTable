@@ -1,4 +1,6 @@
 <script setup lang="ts" generic="TData">
+    import { ref } from 'vue';
+    import { FolderOpen } from 'lucide-vue-next';
     import {
         useVueTable,
         ColumnDef,
@@ -8,6 +10,7 @@
         getSortedRowModel,
         getFilteredRowModel,
     } from '@tanstack/vue-table';
+    import type { ColumnFiltersState } from '@tanstack/vue-table';
     import {
         Table,
         TableBody,
@@ -17,6 +20,7 @@
         TableHeader,
         TableRow,
     } from '@/components/ui/table'
+    import { valueUpdater } from '@/components/ui/table/utils'
     import {
         Empty,
         EmptyDescription,
@@ -24,10 +28,9 @@
         EmptyMedia,
         EmptyTitle,
     } from '@/components/ui/empty'
-    import DataTablePagination from './DataTablePagination.vue';
-    import ColumnToggle from './ColumnToggle.vue';
-    import { FolderOpen } from 'lucide-vue-next';
-import DataTableActions from './DataTableActions.vue';
+    import { DataTablePagination, DataTableActions } from '.';
+    import { dataTableFilterFns } from '@/lib/data-table/filter-fns';
+
 
     const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
@@ -37,6 +40,8 @@ import DataTableActions from './DataTableActions.vue';
         showFooter: true,
     });
 
+    const columnFilters = ref<ColumnFiltersState>([]);
+
     const table = useVueTable({
         get data() { return props.data },
         get columns() { return props.columns },
@@ -45,6 +50,13 @@ import DataTableActions from './DataTableActions.vue';
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         globalFilterFn: 'includesString',
+        state: {
+            get columnFilters() {
+                return columnFilters.value;
+            }
+        },
+        onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
+        filterFns: dataTableFilterFns,
     });
 </script>
 

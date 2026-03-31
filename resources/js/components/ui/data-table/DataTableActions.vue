@@ -6,6 +6,7 @@
     import { ChevronsUpDown, ListFilter } from 'lucide-vue-next';
     
     import { ref } from 'vue';
+import Filter from './Filter.vue';
 
     interface DataTableActionsProps {
         table: Table<TData>,
@@ -24,13 +25,11 @@
 
         <ButtonGroup>
             <ButtonGroup>
-                <Button variant="ghost">
-                    <ListFilter class="w-4 h-4" />
-                </Button>
+                <Filter :table="table" />
                 <Button variant="ghost">
                     <ChevronsUpDown class="w-4 h-4" />
                 </Button>
-                <ColumnToggle :table />
+                <ColumnToggle :table="table" />
             </ButtonGroup>
             
             <ButtonGroup>
