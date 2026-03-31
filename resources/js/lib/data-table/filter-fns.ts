@@ -1,4 +1,4 @@
-import type { FilterFn } from '@tanstack/vue-table';
+import type { FilterFn, Row } from '@tanstack/vue-table';
 import type { TextFilterValue } from './types';
 
 const normalizeText = (value: unknown): string => {
@@ -12,9 +12,9 @@ const normalizeText = (value: unknown): string => {
 }
 
 export const dataTableTextFilterFn: FilterFn<any> = (
-    row,
-    columnId,
-    filterValue,
+    row: Row<any>,
+    columnId: string,
+    filterValue: any,
 ) => {
     const rawValue = row.getValue(columnId);
     const normalizedValue = normalizeText(rawValue);

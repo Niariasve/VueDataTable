@@ -42,7 +42,7 @@
                     <p>Filter</p>
                 </TooltipContent>
                 <DropdownMenuContent align="end" v-on:close-auto-focus="((e: Event) => e.preventDefault())">
-                    <DropdownMenuLabel>Filter by...</DropdownMenuLabel>
+                    <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
                     <DropdownMenuCheckboxItem v-for="column in columns" :key="column.id" class="capitalize"

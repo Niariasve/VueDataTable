@@ -28,7 +28,7 @@
         EmptyMedia,
         EmptyTitle,
     } from '@/components/ui/empty'
-    import { DataTablePagination, DataTableActions } from '.';
+    import { DataTablePagination, DataTableActions, DataTableFilterToolbar } from '.';
     import { dataTableFilterFns } from '@/lib/data-table/filter-fns';
 
 
@@ -56,13 +56,18 @@
             }
         },
         onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
-        filterFns: dataTableFilterFns,
+        // filterFns: {
+        //     dataTextTable: dataTableFilterFns.dataTableText
+        // },
     });
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <DataTableActions :table />
+        <DataTableActions :table="table" />
+        <div>
+            <DataTableFilterToolbar :table="table" />
+        </div>
         <div class="border rounded-md">
             <Table>
                 <TableHeader>

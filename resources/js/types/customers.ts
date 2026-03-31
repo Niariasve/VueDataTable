@@ -2,6 +2,7 @@ import { createColumnHelper } from "@tanstack/vue-table"
 import { h } from "vue";
 import CustomersTableActions from "@/components/CustomersTableActions.vue";
 import { DataTableColumnHeader } from "@/components/ui/data-table";
+import { dataTableTextFilterFn } from "@/lib/data-table/filter-fns";
 import { cn, formatDate } from "@/lib/utils";
 
 export interface Customer {
@@ -35,15 +36,14 @@ const columnHelper = createColumnHelper<Customer>();
 export const customerColumns = [
     columnHelper.accessor(row => `${row.first_name} ${row.last_name}`, {
         id: 'full_name',
-        // header: 'Full Name',
         header: ({ column }) => {
             return h(DataTableColumnHeader<Customer>, {
                 column: column,
                 title: 'Full Name',
             })
         },
-        // footer: props => props.column.id,
         footer: 'Full Name',
+        filterFn: dataTableTextFilterFn,
     }),
     columnHelper.accessor(row => row.email, {
         id: 'email',
