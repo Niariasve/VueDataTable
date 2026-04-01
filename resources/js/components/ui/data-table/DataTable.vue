@@ -1,16 +1,10 @@
 <script setup lang="ts" generic="TData">
-    import { ref } from 'vue';
+    import { toRef } from 'vue';
     import { FolderOpen } from 'lucide-vue-next';
     import {
-        useVueTable,
         ColumnDef,
         FlexRender,
-        getCoreRowModel,
-        getPaginationRowModel,
-        getSortedRowModel,
-        getFilteredRowModel,
     } from '@tanstack/vue-table';
-    import type { ColumnFiltersState } from '@tanstack/vue-table';
     import {
         Table,
         TableBody,
@@ -20,7 +14,6 @@
         TableHeader,
         TableRow,
     } from '@/components/ui/table'
-    import { valueUpdater } from '@/components/ui/table/utils'
     import {
         Empty,
         EmptyDescription,
@@ -29,8 +22,7 @@
         EmptyTitle,
     } from '@/components/ui/empty'
     import { DataTablePagination, DataTableActions, DataTableFilterToolbar } from '.';
-    import { dataTableFilterFns } from '@/lib/data-table/filter-fns';
-    import { DraftFilter } from '@/lib/data-table/types';
+    import { useDataTable } from './useDataTable';
 
 
     const props = withDefaults(defineProps<{
@@ -41,46 +33,10 @@
         showFooter: true,
     });
 
-    const columnFilters = ref<ColumnFiltersState>([]);
-    const draftFilters = ref<DraftFilter[]>([]);
-
-    const table = useVueTable({
-        get data() { return props.data },
-        get columns() { return props.columns },
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        globalFilterFn: 'includesString',
-        state: {
-            get columnFilters() {
-                return columnFilters.value;
-            }
-        },
-        onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
-        // filterFns: {
-        //     dataTextTable: dataTableFilterFns.dataTableText
-        // },
+    const { table, draftFilters, handleDraftFilter } = useDataTable({
+        data: toRef(props, 'data'),
+        columns: toRef(props, 'columns'),
     });
-
-    const handleDraftFilter = (columnId: string) => {
-        const column = table.getColumn(columnId);
-
-        if (!column) {
-            return;
-        }
-
-        const label = column.columnDef.meta?.dataTable.label ?? column.id;
-
-        const alreadyExists = draftFilters.value.some(filter => filter.id === columnId);
-
-        if (alreadyExists) return;
-
-        draftFilters.value.push({
-            id: columnId,
-            label,
-        });
-    } 
 </script>
 
 <template>
