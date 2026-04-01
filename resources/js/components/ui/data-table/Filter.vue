@@ -1,5 +1,5 @@
 <script setup lang='ts' generic="TData">
-    import { computed } from 'vue';
+    import { computed, ref } from 'vue';
     import { ListFilter } from 'lucide-vue-next';
     import { Column, Table } from '@tanstack/vue-table';
     import {
@@ -27,14 +27,10 @@
 
     const emit = defineEmits<{
         (e: 'add-filter', columnId: string): void,
+        (e: 'remove-filter', columnId: string): void,
     }>();
 
-    // const columns = computed(() => props.table.getAllColumns().filter((columns) => columns.getCanFilter()));
-
-    const emitAddFilter = (columnId: string) => {
-        filterByColumn(props.table.getColumn(columnId)!, 'br');
-        emit('add-filter', columnId);
-    }
+    const appliedColumnFilters = ref<string[]>([]);
 
     const columns = computed(() =>
         props.table.getAllColumns().filter(column => {
@@ -42,13 +38,27 @@
         })
     );
 
-    const filterByColumn = (column: Column<TData>, value: string) => {
+    const handleSelectFilter = (columnId: string) => {
+        const exists = appliedColumnFilters.value.includes(columnId);
+
+        if (exists) {
+            appliedColumnFilters.value = appliedColumnFilters.value.filter(
+                (id) => id !== columnId
+            );
+            emit('remove-filter', columnId);
+        } else {
+            appliedColumnFilters.value.push(columnId);
+            emit('add-filter', columnId);
+        }
+    };
+
+    const filterByColumn = (columnId: string, value: string) => {
         const search: TextFilterValue = {
             value: value,
             operator: 'contains',
         }
 
-        props.table.getColumn(column.id)?.setFilterValue(search);
+        props.table.getColumn(columnId)?.setFilterValue(search);
     }
 </script>
 
@@ -71,7 +81,7 @@
                     <DropdownMenuSeparator />
 
                     <DropdownMenuCheckboxItem v-for="column in columns" :key="column.id" class="capitalize"
-                        :model-value="column.getIsFiltered()" @select="emitAddFilter(column.id)">
+                        :model-value="column.getIsFiltered()" @select="handleSelectFilter(column.id)">
                         {{ column.columnDef.meta?.dataTable.label ?? column.id }}
                     </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
