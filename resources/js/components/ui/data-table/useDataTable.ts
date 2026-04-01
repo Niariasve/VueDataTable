@@ -21,7 +21,8 @@ export interface UseDataTableReturn<TData> {
     table: Table<TData>;
     columnFilters: Ref<ColumnFiltersState>;
     draftFilters: Ref<DraftFilter[]>;
-    handleDraftFilter: (columnId: string) => void;
+    handleAddDraftFilter: (columnId: string) => void;
+    handleRemoveDraftFilter: (columnId: string) => void;
 }
 
 export function useDataTable<TData>({
@@ -52,7 +53,7 @@ export function useDataTable<TData>({
             valueUpdater(updaterOrValue, columnFilters),
     });
 
-    const handleDraftFilter = (columnId: string): void => {
+    const handleAddDraftFilter = (columnId: string): void => {
         const column = table.getColumn(columnId);
 
         if (!column) {
@@ -74,10 +75,17 @@ export function useDataTable<TData>({
         });
     };
 
+    const handleRemoveDraftFilter = (columnId: string): void => {
+        draftFilters.value = draftFilters.value.filter(
+            filter => filter.id !== columnId,
+        );
+    };
+
     return {
         table,
         columnFilters,
         draftFilters,
-        handleDraftFilter,
+        handleAddDraftFilter,
+        handleRemoveDraftFilter,
     };
 }

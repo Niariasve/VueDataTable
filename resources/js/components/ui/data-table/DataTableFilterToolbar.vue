@@ -22,7 +22,9 @@
                 </Badge>
             </PopoverTrigger>
             <PopoverContent>
-                
+                <div class="flex flex-col justify-between">
+
+                </div>
             </PopoverContent>
         </Popover>
 

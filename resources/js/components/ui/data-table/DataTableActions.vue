@@ -16,6 +16,7 @@
 
     const emit = defineEmits<{
         (e: 'add-filter', columnId: string): void;
+        (e: 'remove-filter', columnId: string): void;
     }>();
 
     const show = ref<boolean>(false);
@@ -29,7 +30,7 @@
 
         <ButtonGroup>
             <ButtonGroup>
-                <Filter :table="table" @add-filter="emit('add-filter', $event)" />
+                <Filter :table="table" @add-filter="emit('add-filter', $event)" @remove-filter="emit('remove-filter', $event)"/>
                 <Button variant="ghost">
                     <ChevronsUpDown class="w-4 h-4" />
                 </Button>

@@ -33,7 +33,12 @@
         showFooter: true,
     });
 
-    const { table, draftFilters, handleDraftFilter } = useDataTable({
+    const {
+        table,
+        draftFilters,
+        handleAddDraftFilter,
+        handleRemoveDraftFilter,
+    } = useDataTable({
         data: toRef(props, 'data'),
         columns: toRef(props, 'columns'),
     });
@@ -41,7 +46,7 @@
 
 <template>
     <div class="flex flex-col gap-2">
-        <DataTableActions :table="table" @add-filter="handleDraftFilter" />
+        <DataTableActions :table="table" @add-filter="handleAddDraftFilter" @remove-filter="handleRemoveDraftFilter" />
         <div>
             <DataTableFilterToolbar :filters="draftFilters" />
         </div>
