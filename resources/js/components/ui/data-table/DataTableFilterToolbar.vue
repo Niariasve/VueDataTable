@@ -16,7 +16,7 @@
     <div class="flex flex-wrap gap-2">
         <Popover>
             <PopoverTrigger as-child>
-                <Badge v-for="filter in filters" :key="filter.id" class="h-8 gap-2 cursor-pointer hover:bg-primary/90">
+                <Badge variant="secondary" v-for="filter in filters" :key="filter.id" class="h-8 gap-2 cursor-pointer hover:bg-secondary/90">
                     <CaseSensitive class="size-4!" />
                     {{ filter.label }}
                 </Badge>
@@ -30,5 +30,3 @@
 
     </div>
 </template>
-
-<style></style>

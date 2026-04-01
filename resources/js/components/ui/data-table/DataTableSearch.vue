@@ -46,27 +46,5 @@
                 </InputGroupButton>
             </InputGroupAddon>
         </InputGroup>
-
-        <Select v-model="filterBy">
-            <SelectTrigger>
-                <SelectValue placeholder="Select a filter" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectGroup>
-                    <SelectLabel>Filter By</SelectLabel>
-                    <div v-for="column in table.getAllColumns()">
-                        <SelectItem v-if="column.getCanFilter() && column.getIsVisible()" class="capitalize"
-                            :key="column.id" :value="column.id">
-                            {{ column.columnDef.id }}
-                        </SelectItem>
-                    </div>
-                </SelectGroup>
-            </SelectContent>
-        </Select>
-
-        <Button v-show="filterBy.length" variant="ghost" @click="resetColumnFilters">
-            Reset
-            <X class="size-4" />
-        </Button>
     </div>
 </template>

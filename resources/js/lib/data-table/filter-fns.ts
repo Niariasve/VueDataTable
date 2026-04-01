@@ -14,7 +14,7 @@ const normalizeText = (value: unknown): string => {
 export const dataTableTextFilterFn: FilterFn<any> = (
     row: Row<any>,
     columnId: string,
-    filterValue: any,
+    filterValue: TextFilterValue = { value: '', operator: 'contains' },
 ) => {
     const rawValue = row.getValue(columnId);
     const normalizedValue = normalizeText(rawValue);

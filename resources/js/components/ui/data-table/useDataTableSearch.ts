@@ -35,9 +35,7 @@ export function useDataTableSearch<TData>({
         } else {
             table.setGlobalFilter(searchValue);
         }
-
         
-
         showClearSearch.value = searchValue.length > 0
     });
 

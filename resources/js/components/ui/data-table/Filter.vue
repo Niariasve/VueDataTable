@@ -1,7 +1,7 @@
 <script setup lang='ts' generic="TData">
     import { computed } from 'vue';
     import { ListFilter } from 'lucide-vue-next';
-    import { Table } from '@tanstack/vue-table';
+    import { Column, Table } from '@tanstack/vue-table';
     import {
         DropdownMenu,
         DropdownMenuCheckboxItem,
@@ -17,7 +17,7 @@
         TooltipTrigger,
     } from '@/components/ui/tooltip'
     import { Button } from '@/components/ui/button';
-    import { DataTableColumnMeta } from '@/lib/data-table/types';
+    import { DataTableColumnMeta, TextFilterValue } from '@/lib/data-table/types';
 
     interface FilterProps {
         table: Table<TData>,
@@ -32,6 +32,7 @@
     // const columns = computed(() => props.table.getAllColumns().filter((columns) => columns.getCanFilter()));
 
     const emitAddFilter = (columnId: string) => {
+        filterByColumn(props.table.getColumn(columnId)!, 'br');
         emit('add-filter', columnId);
     }
 
@@ -40,6 +41,15 @@
             return Boolean(column.columnDef.meta?.dataTable)
         })
     );
+
+    const filterByColumn = (column: Column<TData>, value: string) => {
+        const search: TextFilterValue = {
+            value: value,
+            operator: 'contains',
+        }
+
+        props.table.getColumn(column.id)?.setFilterValue(search);
+    }
 </script>
 
 <template>
