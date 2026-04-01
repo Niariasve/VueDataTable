@@ -18,6 +18,7 @@
         SelectTrigger,
         SelectValue,
     } from '@/components/ui/select'
+    import { useDataTableSearch } from './useDataTableSearch';
 
     interface DataTableSearchProps {
         table: Table<TData>,
@@ -25,28 +26,13 @@
 
     const props = defineProps<DataTableSearchProps>();
 
-    const search = ref<string>('');
-    const showClearSearch = ref<boolean>(false);
-    const filterBy = ref<string>('');
-
-    watch([search, filterBy], ([searchValue, filterValue]) => {
-        if (filterBy.value.length > 0) {
-            props.table.getColumn(filterValue)?.setFilterValue(searchValue);
-        } else {
-            props.table.setGlobalFilter(searchValue);
-        }
-
-        showClearSearch.value = searchValue.length > 0;
-    });
-
-    const clearSearch = () => {
-        search.value = '';
-    }
-
-    const resetColumnFilters = () => {
-        props.table.resetColumnFilters();
-        filterBy.value = '';
-    }
+    const {
+        search,
+        filterBy,
+        showClearSearch,
+        resetColumnFilters,
+        clearSearch
+    } = useDataTableSearch({ table: props.table });
 </script>
 
 <template>
@@ -69,7 +55,8 @@
                 <SelectGroup>
                     <SelectLabel>Filter By</SelectLabel>
                     <div v-for="column in table.getAllColumns()">
-                        <SelectItem v-if="column.getCanFilter() && column.getIsVisible()" class="capitalize" :key="column.id" :value="column.id">
+                        <SelectItem v-if="column.getCanFilter() && column.getIsVisible()" class="capitalize"
+                            :key="column.id" :value="column.id">
                             {{ column.columnDef.id }}
                         </SelectItem>
                     </div>

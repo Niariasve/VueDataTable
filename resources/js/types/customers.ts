@@ -43,7 +43,7 @@ export const customerColumns = [
             })
         },
         footer: 'Full Name',
-        filterFn: dataTableTextFilterFn,
+        // filterFn: dataTableTextFilterFn,
         meta: {
             dataTable: {
                 label: 'Full Name',

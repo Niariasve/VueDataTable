@@ -43,7 +43,7 @@
     <div class="flex flex-col gap-2">
         <DataTableActions :table="table" @add-filter="handleDraftFilter" />
         <div>
-            <DataTableFlterToolbar :filters="draftFilters" />
+            <DataTableFilterToolbar :filters="draftFilters" />
         </div>
         <div class="border rounded-md">
             <Table>
