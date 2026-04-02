@@ -68,11 +68,14 @@ export function useDataTable<TData>({
 
         if (!column || isDraftOpen(columnId)) return;
 
-        const label = column.columnDef.meta?.dataTable?.label ?? column.id;
+        const columnDefMeta = column.columnDef.meta;
+        const label = columnDefMeta?.dataTable?.label ?? column.id;
+        const type = columnDefMeta?.dataTable.type ?? 'text';
 
         draftFilters.value.push({
             id: columnId,
             label,
+            type,
         });
     }
 

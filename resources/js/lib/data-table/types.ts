@@ -1,6 +1,7 @@
 export type DraftFilter = {
     id: string,
     label: string,
+    type: DataTableColumnType,
 }
 
 export type TextFilterOperator =

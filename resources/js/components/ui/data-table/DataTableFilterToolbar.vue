@@ -1,10 +1,12 @@
 <script setup lang='ts' generic='TData'>
-    import { CaseSensitive } from 'lucide-vue-next';
+    import { CaseSensitive, ListFilter, X } from 'lucide-vue-next';
     import { Badge } from '@/components/ui/badge'
     import { DraftFilter } from '@/lib/data-table/types';
     import { Popover, PopoverContent, PopoverTrigger } from '../popover';
     import { useDataTableFilters } from './useDataTableFilters';
     import { computed } from 'vue';
+    import { ButtonGroup } from '../button-group';
+    import { Button } from '../button';
 
     const filters = useDataTableFilters<TData>();
 
@@ -13,22 +15,17 @@
 
 <template>
     <div class="flex flex-wrap gap-2">
-        <Popover>
-            <PopoverTrigger as-child>
-                <Badge variant="secondary" v-for="filter in draftFilters" :key="filter.id"
-                    class="h-8 gap-2 cursor-pointer hover:bg-secondary/90">
-                    <CaseSensitive class="size-4!" />
+        <ButtonGroup>
+            <ButtonGroup v-for="filter in draftFilters" :key="filter.id">
+                <Button variant="secondary">
+                    <CaseSensitive v-if="filter.type === 'text'" />
+                    <ListFilter v-else />
                     {{ filter.label }}
-                </Badge>
-            </PopoverTrigger>
-            <PopoverContent>
-                <div class="flex flex-col justify-between">
-
-                </div>
-            </PopoverContent>
-        </Popover>
-
-
-
+                </Button>
+                <Button variant="secondary" @click="filters.removeDraftFilter(filter.id)">
+                    <X />
+                </Button>
+            </ButtonGroup>
+        </ButtonGroup>
     </div>
 </template>
