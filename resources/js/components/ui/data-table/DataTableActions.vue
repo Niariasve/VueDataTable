@@ -13,24 +13,15 @@
     }
 
     defineProps<DataTableActionsProps>();
-
-    const emit = defineEmits<{
-        (e: 'add-filter', columnId: string): void;
-        (e: 'remove-filter', columnId: string): void;
-    }>();
-
-    const show = ref<boolean>(false);
-
-    const handleShow = () => show.value = !show.value;
 </script>
 
 <template>
     <div class="flex flex-row items-center justify-between">
-        <DataTableSearch :table />
+        <DataTableSearch :table="table" />
 
         <ButtonGroup>
             <ButtonGroup>
-                <Filter :table="table" @add-filter="emit('add-filter', $event)" @remove-filter="emit('remove-filter', $event)"/>
+                <Filter :table="table" />
                 <Button variant="ghost">
                     <ChevronsUpDown class="w-4 h-4" />
                 </Button>

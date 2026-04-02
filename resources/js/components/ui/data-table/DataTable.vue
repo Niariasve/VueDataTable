@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="TData">
-    import { toRef } from 'vue';
+    import { provide, toRef } from 'vue';
     import { FolderOpen } from 'lucide-vue-next';
     import {
         ColumnDef,
@@ -23,6 +23,7 @@
     } from '@/components/ui/empty'
     import { DataTablePagination, DataTableActions, DataTableFilterToolbar } from '.';
     import { useDataTable } from './useDataTable';
+import { dataTableFiltersKey } from './useDataTableFilters';
 
 
     const props = withDefaults(defineProps<{
@@ -33,27 +34,24 @@
         showFooter: true,
     });
 
-    const {
-        table,
-        draftFilters,
-        handleAddDraftFilter,
-        handleRemoveDraftFilter,
-    } = useDataTable({
+    const filters = useDataTable({
         data: toRef(props, 'data'),
         columns: toRef(props, 'columns'),
     });
+
+    provide(dataTableFiltersKey, filters);
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <DataTableActions :table="table" @add-filter="handleAddDraftFilter" @remove-filter="handleRemoveDraftFilter" />
+        <DataTableActions :table="filters.table" />
         <div>
-            <DataTableFilterToolbar :filters="draftFilters" />
+            <DataTableFilterToolbar />
         </div>
         <div class="border rounded-md">
             <Table>
                 <TableHeader>
-                    <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+                    <TableRow v-for="headerGroup in filters.table.getHeaderGroups()" :key="headerGroup.id">
                         <TableHead v-for="header in headerGroup.headers" :key="header.id" :colspan="header.colSpan">
                             <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
                                 :props="header.getContext()" />
@@ -61,8 +59,8 @@
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <template v-if="table.getRowModel().rows?.length">
-                        <TableRow v-for="row in table.getRowModel().rows" :key="row.id"
+                    <template v-if="filters.table.getRowModel().rows?.length">
+                        <TableRow v-for="row in filters.table.getRowModel().rows" :key="row.id"
                             :data-state="row.getIsSelected() ? 'selected' : undefined">
                             <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
@@ -86,7 +84,7 @@
                     </template>
                 </TableBody>
                 <TableFooter v-if="showFooter">
-                    <TableRow v-for="footerGroup in table.getFooterGroups()" :key="footerGroup.id">
+                    <TableRow v-for="footerGroup in filters.table.getFooterGroups()" :key="footerGroup.id">
                         <TableHead v-for="header in footerGroup.headers" :key="header.id" :colspan="header.colSpan">
                             <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.footer"
                                 :props="header.getContext()" />
@@ -96,7 +94,7 @@
             </Table>
         </div>
         <div class="flex items-center justify-center md:justify-end py-4 space-x-2">
-            <DataTablePagination :table="table" />
+            <DataTablePagination :table="filters.table" />
         </div>
     </div>
 </template>

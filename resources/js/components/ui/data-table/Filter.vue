@@ -18,48 +18,29 @@
     } from '@/components/ui/tooltip'
     import { Button } from '@/components/ui/button';
     import { DataTableColumnMeta, TextFilterValue } from '@/lib/data-table/types';
+    import { useDataTableFilters } from './useDataTableFilters';
 
     interface FilterProps {
         table: Table<TData>,
     }
 
     const props = defineProps<FilterProps>();
-
-    const emit = defineEmits<{
-        (e: 'add-filter', columnId: string): void,
-        (e: 'remove-filter', columnId: string): void,
-    }>();
-
-    const appliedColumnFilters = ref<string[]>([]);
+    const filters = useDataTableFilters<TData>();
 
     const columns = computed(() =>
-        props.table.getAllColumns().filter(column => {
-            return Boolean(column.columnDef.meta?.dataTable)
-        })
+        props.table.getAllColumns().filter(column =>
+            Boolean(column.columnDef.meta?.dataTable),
+        ),
     );
 
-    const handleSelectFilter = (columnId: string) => {
-        const exists = appliedColumnFilters.value.includes(columnId);
-
-        if (exists) {
-            appliedColumnFilters.value = appliedColumnFilters.value.filter(
-                (id) => id !== columnId
-            );
-            emit('remove-filter', columnId);
-        } else {
-            appliedColumnFilters.value.push(columnId);
-            emit('add-filter', columnId);
+    const handleSelectFilter = (columnId: string): void => {
+        if (filters.isDraftOpen(columnId)) {
+            filters.removeDraftFilter(columnId);
+            return;
         }
+
+        filters.addDraftFilter(columnId);
     };
-
-    const filterByColumn = (columnId: string, value: string) => {
-        const search: TextFilterValue = {
-            value: value,
-            operator: 'contains',
-        }
-
-        props.table.getColumn(columnId)?.setFilterValue(search);
-    }
 </script>
 
 <template>
