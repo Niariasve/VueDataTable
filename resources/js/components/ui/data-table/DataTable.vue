@@ -23,7 +23,7 @@
     } from '@/components/ui/empty'
     import { DataTablePagination, DataTableActions, DataTableFilterToolbar } from '.';
     import { useDataTable } from './useDataTable';
-import { dataTableFiltersKey } from './useDataTableFilters';
+    import { dataTableFiltersKey } from './useDataTableFilters';
 
 
     const props = withDefaults(defineProps<{
