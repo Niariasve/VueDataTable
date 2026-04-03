@@ -10,7 +10,7 @@ import {
 import type { ColumnFiltersState } from '@tanstack/vue-table';
 import { MaybeRefOrGetter, type Ref, ref, toValue } from 'vue';
 import { valueUpdater } from '@/components/ui/table/utils';
-import type { DraftFilter } from '@/lib/data-table/types';
+import { StateController, useDataTableFilterState } from './useDataTableFilterState';
 
 export interface UseDataTableOptions<TData> {
     data: MaybeRefOrGetter<TData[]>;
@@ -20,22 +20,18 @@ export interface UseDataTableOptions<TData> {
 export interface DataTableFiltersController<TData> {
     table: Table<TData>;
     columnFilters: Ref<ColumnFiltersState>;
-    draftFilters: Ref<DraftFilter[]>;
-    addDraftFilter: (columnId: string) => void;
-    removeDraftFilter: (columnId: string) => void;
-    updateDraftFilter: (columnId: string, value: DraftFilter['draftValue']) => void;
     setColumnFilter: (columnId: string, value: any) => void;
     clearColumnFilter: (columnId: string) => void;
-    isDraftOpen: (columnId: string) => boolean;
     isColumnFiltered: (columnId: string) => boolean;
+    filterState: StateController;
 }
 
 export function useDataTable<TData>({
     data,
     columns,
 }: UseDataTableOptions<TData>): DataTableFiltersController<TData> {
+    
     const columnFilters = ref<ColumnFiltersState>([]);
-    const draftFilters = ref<DraftFilter[]>([]);
 
     const table = useVueTable({
         get data() {
@@ -58,51 +54,10 @@ export function useDataTable<TData>({
             valueUpdater(updaterOrValue, columnFilters),
     });
 
-    const isDraftOpen = (columnId: string): boolean =>
-        draftFilters.value.some(filter => filter.id === columnId)
+    const filterState = useDataTableFilterState<TData>({ table });
 
     const isColumnFiltered = (columnId: string): boolean =>
         columnFilters.value.some(filter => filter.id === columnId)
-
-    const addDraftFilter = (columnId: string): void => {
-        const column = table.getColumn(columnId);
-
-        if (!column || isDraftOpen(columnId)) return;
-
-        const columnDefMeta = column.columnDef.meta;
-        const label = columnDefMeta?.dataTable?.label ?? column.id;
-        const type = columnDefMeta?.dataTable.type ?? 'text';
-
-        draftFilters.value.push({
-            id: columnId,
-            label,
-            type,
-            open: false,
-            draftValue: {
-                operator: 'contains',
-                value: '',
-            }
-        });
-    }
-
-    const removeDraftFilter = (columnId: string): void => {
-        draftFilters.value = draftFilters.value.filter(
-            filter => filter.id !== columnId
-        );
-
-        setColumnFilter(columnId, undefined);
-    }
-
-    const updateDraftFilter = (
-        columnId: string,
-        value: DraftFilter['draftValue']
-    ): void => {
-        const filter = draftFilters.value.find(filter => filter.id === columnId);
-
-        if (!filter) return;
-
-        filter.draftValue = value;
-    }
 
     const setColumnFilter = (
         columnId: string,
@@ -117,14 +72,10 @@ export function useDataTable<TData>({
 
     return {
         table,
+        filterState,
         columnFilters,
-        draftFilters,
-        addDraftFilter,
-        removeDraftFilter,
-        updateDraftFilter,
         setColumnFilter,
         clearColumnFilter,
-        isDraftOpen,
         isColumnFiltered,
     };
 }

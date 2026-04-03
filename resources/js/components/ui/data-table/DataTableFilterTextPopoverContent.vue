@@ -23,7 +23,7 @@
     const filters = useDataTableFilters<TData>();
 
     const draftFilter = computed(() =>
-        filters.draftFilters.value.find(
+        filters.filterState.draftFilters.value.find(
             filter => filter.id === props.columnId
         ),
     );
@@ -52,7 +52,7 @@
                     operator: operatorValue,
                 };
 
-        filters.updateDraftFilter(props.columnId, {
+        filters.filterState.updateDraftFilter(props.columnId, {
             operator: operatorValue,
             value: searchValue,
         });

@@ -9,7 +9,7 @@
 
     const filters = useDataTableFilters<TData>();
 
-    const draftFilters = computed(() => filters.draftFilters.value);
+    const draftFilters = computed(() => filters.filterState.draftFilters.value);
 </script>
 
 <template>
@@ -34,7 +34,7 @@
                         <DataTableFilterPopover :draft-filter="filter" />
                     </PopoverContent>
                 </Popover>
-                <Button variant="secondary" @click="filters.removeDraftFilter(filter.id)">
+                <Button variant="secondary" @click="filters.filterState.removeDraftFilter(filter.id)">
                     <X />
                 </Button>
             </ButtonGroup>
