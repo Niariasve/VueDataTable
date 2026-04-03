@@ -2,6 +2,13 @@ export type DraftFilter = {
     id: string,
     label: string,
     type: DataTableColumnType,
+    open: boolean,
+    draftValue: TextDraftValue,
+}
+
+export type TextDraftValue = {
+    operator: TextFilterOperator,
+    value: string,
 }
 
 export type TextFilterOperator =

@@ -24,6 +24,9 @@
                             <CaseSensitive v-if="filter.type === 'text'" />
                             <ListFilter v-else />
                             {{ filter.label }}
+                            <span>
+                                {{ filter.draftValue.operator }}
+                            </span>
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent align="start">

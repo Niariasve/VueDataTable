@@ -41,6 +41,10 @@
                     operator: operatorValue,
                 };
 
+        props.filters.updateDraftFilter(props.columnId, {
+            operator: operatorValue,
+            value: searchValue,
+        });
         props.filters.setColumnFilter(props.columnId, filterValue);
     });
 </script>
@@ -66,7 +70,7 @@
         </div>
         <div v-if="isValueRequired" class="flex flex-row gap-4 items-center">
             <Search class="size-5" />
-            <Input v-model="search" />
+            <Input class="flex-1" v-model="search" />
         </div>
     </div>
 </template>

@@ -23,6 +23,7 @@ export interface DataTableFiltersController<TData> {
     draftFilters: Ref<DraftFilter[]>;
     addDraftFilter: (columnId: string) => void;
     removeDraftFilter: (columnId: string) => void;
+    updateDraftFilter: (columnId: string, value: DraftFilter['draftValue']) => void;
     setColumnFilter: (columnId: string, value: any) => void;
     clearColumnFilter: (columnId: string) => void;
     isDraftOpen: (columnId: string) => boolean;
@@ -76,6 +77,11 @@ export function useDataTable<TData>({
             id: columnId,
             label,
             type,
+            open: false,
+            draftValue: {
+                operator: 'contains',
+                value: '',
+            }
         });
     }
 
@@ -85,6 +91,17 @@ export function useDataTable<TData>({
         );
 
         setColumnFilter(columnId, undefined);
+    }
+
+    const updateDraftFilter = (
+        columnId: string,
+        value: DraftFilter['draftValue']
+    ): void => {
+        const filter = draftFilters.value.find(filter => filter.id === columnId);
+
+        if (!filter) return;
+
+        filter.draftValue = value;
     }
 
     const setColumnFilter = (
@@ -104,6 +121,7 @@ export function useDataTable<TData>({
         draftFilters,
         addDraftFilter,
         removeDraftFilter,
+        updateDraftFilter,
         setColumnFilter,
         clearColumnFilter,
         isDraftOpen,
