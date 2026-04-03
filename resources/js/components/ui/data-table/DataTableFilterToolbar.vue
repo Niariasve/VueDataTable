@@ -27,6 +27,9 @@
                             <span>
                                 {{ filter.draftValue.operator }}
                             </span>
+                            <span>
+                                {{ filter.draftValue.value }}
+                            </span>
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent align="start">

@@ -11,7 +11,7 @@
     import { Input } from '../input';
     import { DataTableFiltersController } from './useDataTable';
     import { textOperators } from '@/lib/data-table/operators';
-    import { ref, watch } from 'vue';
+    import { computed, ref, watch } from 'vue';
     import { TextFilterOperator, TextFilterValue, TextOperator } from '@/lib/data-table/types';
 
     interface DataTableFilterTextPopoverProps {
@@ -21,14 +21,24 @@
 
     const props = defineProps<DataTableFilterTextPopoverProps>();
 
-    const operatorRef = ref<TextFilterOperator>('contains');
-    const search = ref<string>('');
-    const isValueRequired = ref<boolean>(true);
+    const draftFilter = computed(() =>
+        props.filters.draftFilters.value.find(
+            filter => filter.id === props.columnId
+        ),
+    );
 
-    const handleSelectOperator = (operator: TextOperator) => {
-        operatorRef.value = operator.id;
-        isValueRequired.value = operator.requiresValue;
-    }
+    const operatorRef = ref<TextFilterOperator>(
+        draftFilter.value?.draftValue.operator ?? 'contains',
+    );
+
+    const search = ref<string>(
+        draftFilter.value?.draftValue.value ?? '',
+    );
+
+    const isValueRequired = ref<boolean>(
+        operatorRef.value !== 'is_empty' &&
+        operatorRef.value !== 'is_not_empty',
+    );
 
     watch([search, operatorRef], ([searchValue, operatorValue]) => {
         const filterValue: TextFilterValue =
@@ -53,18 +63,16 @@
     <div class="flex flex-col gap-2">
         <div class="flex flex-row gap-4 items-center">
             <Funnel class="size-5" />
-            <Select :default-value="'contains'">
+            <Select v-model="operatorRef">
                 <SelectTrigger class="flex-1">
                     <SelectValue class="capitalize" />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectLabel>Operators</SelectLabel>
-                    <template v-for="(operator, index) in textOperators" :key="index">
-                        <SelectItem :value="operator.id" class="capitalize"
-                            @select="() => handleSelectOperator(operator)">
-                            {{ operator.label }}
-                        </SelectItem>
-                    </template>
+                    <SelectItem v-for="(operator, index) in textOperators" :key="index" :value="operator.id"
+                        class="capitalize">
+                        {{ operator.label }}
+                    </SelectItem>
                 </SelectContent>
             </Select>
         </div>
