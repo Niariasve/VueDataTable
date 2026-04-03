@@ -83,6 +83,8 @@ export function useDataTable<TData>({
         draftFilters.value = draftFilters.value.filter(
             filter => filter.id !== columnId
         );
+
+        setColumnFilter(columnId, undefined);
     }
 
     const setColumnFilter = (

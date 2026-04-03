@@ -7,6 +7,7 @@
     import { computed } from 'vue';
     import { ButtonGroup } from '../button-group';
     import { Button } from '../button';
+    import DataTableFilterTextPopoverContent from './DataTableFilterTextPopoverContent.vue';
 
     const filters = useDataTableFilters<TData>();
 
@@ -17,11 +18,18 @@
     <div class="flex flex-wrap gap-2">
         <ButtonGroup>
             <ButtonGroup v-for="filter in draftFilters" :key="filter.id">
-                <Button variant="secondary">
-                    <CaseSensitive v-if="filter.type === 'text'" />
-                    <ListFilter v-else />
-                    {{ filter.label }}
-                </Button>
+                <Popover>
+                    <PopoverTrigger as-child>
+                        <Button variant="secondary">
+                            <CaseSensitive v-if="filter.type === 'text'" />
+                            <ListFilter v-else />
+                            {{ filter.label }}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start">
+                        <DataTableFilterTextPopoverContent :filters="filters" :columnId="filter.id" />
+                    </PopoverContent>
+                </Popover>
                 <Button variant="secondary" @click="filters.removeDraftFilter(filter.id)">
                     <X />
                 </Button>
