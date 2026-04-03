@@ -3,10 +3,7 @@
     import { Button } from '@/components/ui/button';
     import { DataTableColumnToggle, DataTableFilterPicker, DataTableSearch } from '@/components/ui/data-table';
     import { Table } from '@tanstack/vue-table';
-    import { ChevronsUpDown, ListFilter } from 'lucide-vue-next';
-
-    import { ref } from 'vue';
-    
+    import { ChevronsUpDown } from 'lucide-vue-next';
 
     interface DataTableActionsProps {
         table: Table<TData>,

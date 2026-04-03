@@ -1,23 +1,12 @@
 <script setup lang='ts' generic="TData">
-    import { Search, X } from 'lucide-vue-next';
-    import { Button } from '@/components/ui/button';
+    import { X } from 'lucide-vue-next';
     import { Table } from '@tanstack/vue-table';
-    import { ref, watch } from 'vue';
     import {
         InputGroup,
         InputGroupAddon,
         InputGroupButton,
         InputGroupInput,
     } from '@/components/ui/input-group'
-    import {
-        Select,
-        SelectContent,
-        SelectGroup,
-        SelectItem,
-        SelectLabel,
-        SelectTrigger,
-        SelectValue,
-    } from '@/components/ui/select'
     import { useDataTableSearch } from './useDataTableSearch';
 
     interface DataTableSearchProps {

@@ -1,7 +1,7 @@
 <script setup lang='ts' generic="TData">
     import { computed, ref } from 'vue';
     import { ListFilter } from 'lucide-vue-next';
-    import { Column, Table } from '@tanstack/vue-table';
+    import { Table } from '@tanstack/vue-table';
     import {
         DropdownMenu,
         DropdownMenuCheckboxItem,
@@ -17,7 +17,6 @@
         TooltipTrigger,
     } from '@/components/ui/tooltip'
     import { Button } from '@/components/ui/button';
-    import { DataTableColumnMeta, TextFilterValue } from '@/lib/data-table/types';
     import { useDataTableFilters } from './useDataTableFilters';
 
     interface FilterProps {
@@ -62,7 +61,8 @@
                     <DropdownMenuSeparator />
 
                     <DropdownMenuCheckboxItem v-for="column in columns" :key="column.id" class="capitalize"
-                        :model-value="filters.filterState.isDraftOpen(column.id)" @select="handleSelectFilter(column.id)">
+                        :model-value="filters.filterState.isDraftOpen(column.id)"
+                        @select="handleSelectFilter(column.id)">
                         {{ column.columnDef.meta?.dataTable.label ?? column.id }}
                     </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>

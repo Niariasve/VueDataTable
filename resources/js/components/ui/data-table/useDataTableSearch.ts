@@ -1,5 +1,5 @@
-import { Table } from "@tanstack/vue-table";
-import { Ref, ref, watch } from "vue";
+import { Table } from '@tanstack/vue-table';
+import { Ref, ref, watch } from 'vue';
 
 interface UseDataTableSearchOptions<TData> {
     table: Table<TData>;
