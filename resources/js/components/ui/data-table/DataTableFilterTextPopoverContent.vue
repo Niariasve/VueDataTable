@@ -12,7 +12,7 @@
     import { DataTableFiltersController } from './useDataTable';
     import { textOperators } from '@/lib/data-table/operators';
     import { ref, watch } from 'vue';
-    import { TextFilterValue, TextOperator } from '@/lib/data-table/types';
+    import { TextFilterOperator, TextFilterValue, TextOperator } from '@/lib/data-table/types';
 
     interface DataTableFilterTextPopoverProps {
         filters: DataTableFiltersController<TData>;
@@ -21,7 +21,7 @@
 
     const props = defineProps<DataTableFilterTextPopoverProps>();
 
-    const operatorRef = ref<string>('contains');
+    const operatorRef = ref<TextFilterOperator>('contains');
     const search = ref<string>('');
     const isValueRequired = ref<boolean>(true);
 
@@ -31,10 +31,15 @@
     }
 
     watch([search, operatorRef], ([searchValue, operatorValue]) => {
-        const filterValue = {
-            value: searchValue,
-            operator: operatorValue,
-        } as TextFilterValue;
+        const filterValue: TextFilterValue =
+            operatorValue === 'is_empty' || operatorValue === 'is_not_empty'
+                ? {
+                    operator: operatorValue,
+                }
+                : {
+                    value: searchValue,
+                    operator: operatorValue,
+                };
 
         props.filters.setColumnFilter(props.columnId, filterValue);
     });
@@ -51,7 +56,8 @@
                 <SelectContent>
                     <SelectLabel>Operators</SelectLabel>
                     <template v-for="(operator, index) in textOperators" :key="index">
-                        <SelectItem :value="operator.id" class="capitalize" @select="() => handleSelectOperator(operator)">
+                        <SelectItem :value="operator.id" class="capitalize"
+                            @select="() => handleSelectOperator(operator)">
                             {{ operator.label }}
                         </SelectItem>
                     </template>
