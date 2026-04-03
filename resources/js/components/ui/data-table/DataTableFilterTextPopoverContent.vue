@@ -9,20 +9,21 @@
         SelectValue,
     } from '@/components/ui/select'
     import { Input } from '../input';
-    import { DataTableFiltersController } from './useDataTable';
     import { textOperators } from '@/lib/data-table/operators';
     import { computed, ref, watch } from 'vue';
     import { TextFilterOperator, TextFilterValue } from '@/lib/data-table/types';
+    import { useDataTableFilters } from './useDataTableFilters';
 
     interface DataTableFilterTextPopoverProps {
-        filters: DataTableFiltersController<TData>;
         columnId: string;
     }
 
     const props = defineProps<DataTableFilterTextPopoverProps>();
 
+    const filters = useDataTableFilters<TData>();
+
     const draftFilter = computed(() =>
-        props.filters.draftFilters.value.find(
+        filters.draftFilters.value.find(
             filter => filter.id === props.columnId
         ),
     );
@@ -51,11 +52,11 @@
                     operator: operatorValue,
                 };
 
-        props.filters.updateDraftFilter(props.columnId, {
+        filters.updateDraftFilter(props.columnId, {
             operator: operatorValue,
             value: searchValue,
         });
-        props.filters.setColumnFilter(props.columnId, filterValue);
+        filters.setColumnFilter(props.columnId, filterValue);
     });
 </script>
 

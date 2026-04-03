@@ -5,7 +5,7 @@
     import { computed } from 'vue';
     import { ButtonGroup } from '../button-group';
     import { Button } from '../button';
-    import DataTableFilterTextPopoverContent from './DataTableFilterTextPopoverContent.vue';
+    import { DataTableFilterPopover } from '.';
 
     const filters = useDataTableFilters<TData>();
 
@@ -31,7 +31,7 @@
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent align="start">
-                        <DataTableFilterTextPopoverContent :filters="filters" :columnId="filter.id" />
+                        <DataTableFilterPopover :draft-filter="filter" />
                     </PopoverContent>
                 </Popover>
                 <Button variant="secondary" @click="filters.removeDraftFilter(filter.id)">
