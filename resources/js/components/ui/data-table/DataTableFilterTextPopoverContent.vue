@@ -12,7 +12,7 @@
     import { DataTableFiltersController } from './useDataTable';
     import { textOperators } from '@/lib/data-table/operators';
     import { computed, ref, watch } from 'vue';
-    import { TextFilterOperator, TextFilterValue, TextOperator } from '@/lib/data-table/types';
+    import { TextFilterOperator, TextFilterValue } from '@/lib/data-table/types';
 
     interface DataTableFilterTextPopoverProps {
         filters: DataTableFiltersController<TData>;
@@ -35,7 +35,7 @@
         draftFilter.value?.draftValue.value ?? '',
     );
 
-    const isValueRequired = ref<boolean>(
+    const isValueRequired = computed<boolean>(() =>
         operatorRef.value !== 'is_empty' &&
         operatorRef.value !== 'is_not_empty',
     );

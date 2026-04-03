@@ -1,7 +1,5 @@
 <script setup lang='ts' generic='TData'>
     import { CaseSensitive, ListFilter, X } from 'lucide-vue-next';
-    import { Badge } from '@/components/ui/badge'
-    import { DraftFilter } from '@/lib/data-table/types';
     import { Popover, PopoverContent, PopoverTrigger } from '../popover';
     import { useDataTableFilters } from './useDataTableFilters';
     import { computed } from 'vue';
@@ -27,7 +25,7 @@
                             <span>
                                 {{ filter.draftValue.operator }}
                             </span>
-                            <span>
+                            <span v-if="filter.draftValue.value">
                                 {{ filter.draftValue.value }}
                             </span>
                         </Button>
