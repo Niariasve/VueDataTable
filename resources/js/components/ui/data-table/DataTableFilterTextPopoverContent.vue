@@ -28,10 +28,6 @@
         ),
     );
 
-    const operatorRef = ref<TextFilterOperator>(
-        draftFilter.value?.draftValue.operator ?? 'contains',
-    );
-
     const search = ref<string>(
         draftFilter.value?.draftValue.value ?? '',
     );
@@ -39,6 +35,31 @@
     const isValueRequired = computed<boolean>(() =>
         operatorRef.value !== 'is_empty' &&
         operatorRef.value !== 'is_not_empty',
+    );
+
+    const column = computed(() => 
+        filters.table.getColumn(props.columnId),
+    );
+
+    const allowedOperators = computed(() => {
+        const columnMeta = column.value?.columnDef.meta;
+
+        const configuredOperators = columnMeta?.dataTable.operators;
+        const excludedOperators = columnMeta?.dataTable.excludedOperators;
+
+        const baseOperators = configuredOperators?.length
+            ? textOperators.filter(operator => 
+                configuredOperators.includes(operator.id),            
+            )
+            : textOperators;
+
+        return baseOperators.filter(operator => 
+            !excludedOperators?.includes(operator.id)
+        );
+    });
+
+    const operatorRef = ref<TextFilterOperator>(
+        draftFilter.value?.draftValue.operator ?? allowedOperators.value[0].id,
     );
 
     watch([search, operatorRef], ([searchValue, operatorValue]) => {
@@ -70,10 +91,9 @@
                 </SelectTrigger>
                 <SelectContent>
                     <SelectLabel>Operators</SelectLabel>
-                    <SelectItem v-for="(operator, index) in textOperators" :key="index" :value="operator.id"
-                        class="capitalize">
-                        {{ operator.label }}
-                    </SelectItem>
+                        <SelectItem v-for="(operator, index) in allowedOperators" :key="index"  :value="operator.id" class="capitalize">
+                            {{ operator.label }}
+                        </SelectItem>
                 </SelectContent>
             </Select>
         </div>

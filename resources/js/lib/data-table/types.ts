@@ -49,5 +49,6 @@ export interface DataTableColumnMeta {
         label: string,
         type: DataTableColumnType,
         operators?: TextFilterOperator[],
+        excludedOperators?: TextFilterOperator[],
     }
 }
