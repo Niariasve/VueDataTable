@@ -9,10 +9,11 @@
         SelectValue,
     } from '@/components/ui/select'
     import { Input } from '../input';
-    import { resolveOperators, textOperators } from '@/lib/data-table/operators';
+    import { resolveOperators } from '@/lib/data-table/operators';
     import { computed, ref, watch } from 'vue';
     import { TextFilterOperator, TextFilterValue } from '@/lib/data-table/types';
     import { useDataTableFilters } from './useDataTableFilters';
+    import { getFilterRegistryItem } from '@/lib/data-table/filter-registry';
 
     interface DataTableFilterTextPopoverProps {
         columnId: string;
@@ -27,6 +28,7 @@
             filter => filter.id === props.columnId
         ),
     );
+
 
     const search = ref<string>(
         draftFilter.value?.draftValue.value ?? '',
@@ -45,9 +47,13 @@
         column.value?.columnDef.meta,
     )
 
+    const registryItem = computed(() => 
+        getFilterRegistryItem(meta.value?.dataTable.type ?? 'text')
+    );
+
     const allowedOperators = computed(() =>
         resolveOperators({
-            baseOperators: textOperators,
+            baseOperators: registryItem.value.operators,
             operators: meta.value?.dataTable.operators,
             excludedOperators: meta.value?.dataTable.excludedOperators,
         })
