@@ -9,7 +9,7 @@
         SelectValue,
     } from '@/components/ui/select'
     import { Input } from '../input';
-    import { textOperators } from '@/lib/data-table/operators';
+    import { resolveOperators, textOperators } from '@/lib/data-table/operators';
     import { computed, ref, watch } from 'vue';
     import { TextFilterOperator, TextFilterValue } from '@/lib/data-table/types';
     import { useDataTableFilters } from './useDataTableFilters';
@@ -37,26 +37,21 @@
         operatorRef.value !== 'is_not_empty',
     );
 
-    const column = computed(() => 
+    const column = computed(() =>
         filters.table.getColumn(props.columnId),
     );
 
-    const allowedOperators = computed(() => {
-        const columnMeta = column.value?.columnDef.meta;
+    const meta = computed(() =>
+        column.value?.columnDef.meta,
+    )
 
-        const configuredOperators = columnMeta?.dataTable.operators;
-        const excludedOperators = columnMeta?.dataTable.excludedOperators;
-
-        const baseOperators = configuredOperators?.length
-            ? textOperators.filter(operator => 
-                configuredOperators.includes(operator.id),            
-            )
-            : textOperators;
-
-        return baseOperators.filter(operator => 
-            !excludedOperators?.includes(operator.id)
-        );
-    });
+    const allowedOperators = computed(() =>
+        resolveOperators({
+            baseOperators: textOperators,
+            operators: meta.value?.dataTable.operators,
+            excludedOperators: meta.value?.dataTable.excludedOperators,
+        })
+    )
 
     const operatorRef = ref<TextFilterOperator>(
         draftFilter.value?.draftValue.operator ?? allowedOperators.value[0].id,
@@ -91,9 +86,10 @@
                 </SelectTrigger>
                 <SelectContent>
                     <SelectLabel>Operators</SelectLabel>
-                        <SelectItem v-for="(operator, index) in allowedOperators" :key="index"  :value="operator.id" class="capitalize">
-                            {{ operator.label }}
-                        </SelectItem>
+                    <SelectItem v-for="(operator, index) in allowedOperators" :key="index" :value="operator.id"
+                        class="capitalize">
+                        {{ operator.label }}
+                    </SelectItem>
                 </SelectContent>
             </Select>
         </div>

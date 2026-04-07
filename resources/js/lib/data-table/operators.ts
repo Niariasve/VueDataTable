@@ -10,3 +10,22 @@ export const textOperators: TextOperator[] = [
     { id: 'is_empty', label: 'is empty', requiresValue: false },
     { id: 'is_not_empty', label: 'is not empty', requiresValue: false },
 ];
+
+export const resolveOperators = <TOperator extends string, TOption extends { id: TOperator }>(options: {
+    baseOperators: TOption[];
+    operators?: TOperator[];
+    excludedOperators?: TOperator[];
+}): TOption[] => {
+    const configuredOperators = options.operators;
+    const excludedOperators = options.excludedOperators ?? [];
+
+    const baseOperators = configuredOperators?.length
+        ? options.baseOperators.filter(operatos =>
+            configuredOperators.includes(operatos.id),
+        )
+        : options.baseOperators;
+
+    return baseOperators.filter(operator =>
+        !excludedOperators.includes(operator.id),
+    )
+}

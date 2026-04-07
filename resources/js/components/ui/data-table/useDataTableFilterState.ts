@@ -1,4 +1,4 @@
-import { textOperators } from '@/lib/data-table/operators';
+import { resolveOperators, textOperators } from '@/lib/data-table/operators';
 import { DraftFilter } from '@/lib/data-table/types';
 import { Table } from '@tanstack/vue-table';
 import { ref, Ref } from 'vue';
@@ -31,8 +31,12 @@ export function useDataTableFilterState<TData>({
         const columnDefMeta = column.columnDef.meta;
         const label = columnDefMeta?.dataTable.label ?? column.id;
         const type = columnDefMeta?.dataTable.type ?? 'text';
-        const operators = columnDefMeta?.dataTable.operators;
-        const defaultOperator = operators?.[0] ?? textOperators[0].id;
+        const operators = resolveOperators({
+            baseOperators: textOperators,
+            operators: columnDefMeta?.dataTable.operators,
+            excludedOperators: columnDefMeta?.dataTable.excludedOperators,
+        });
+        const defaultOperator = operators.length > 0 ? operators[0].id : 'contains';
 
         draftFilters.value.push({
             id: columnId,
