@@ -11,9 +11,9 @@
     import { Input } from '../input';
     import { resolveOperators } from '@/lib/data-table/operators';
     import { computed, ref, watch } from 'vue';
-    import { TextFilterOperator, TextFilterValue } from '@/lib/data-table/types';
+    import { TextDraftValue, TextFilterOperator, TextOperator } from '@/lib/data-table/types';
     import { useDataTableFilters } from './useDataTableFilters';
-    import { getFilterRegistryItem } from '@/lib/data-table/filter-registry';
+    import { FilterRegistryItem, getFilterRegistryItem } from '@/lib/data-table/filter-registry';
 
     interface DataTableFilterTextPopoverProps {
         columnId: string;
@@ -47,7 +47,7 @@
         column.value?.columnDef.meta,
     )
 
-    const registryItem = computed(() => 
+    const registryItem = computed<FilterRegistryItem<TextOperator, TextDraftValue>>(() => 
         getFilterRegistryItem(meta.value?.dataTable.type ?? 'text')
     );
 
@@ -64,20 +64,15 @@
     );
 
     watch([search, operatorRef], ([searchValue, operatorValue]) => {
-        const filterValue: TextFilterValue =
-            operatorValue === 'is_empty' || operatorValue === 'is_not_empty'
-                ? {
-                    operator: operatorValue,
-                }
-                : {
-                    value: searchValue,
-                    operator: operatorValue,
-                };
-
-        filters.filterState.updateDraftFilter(props.columnId, {
+        const draftValue = {
             operator: operatorValue,
             value: searchValue,
-        });
+        };
+
+        const filterValue = registryItem.value.toAppliedFilterValue(draftValue);
+
+        filters.filterState.updateDraftFilter(props.columnId, draftValue);
+
         filters.setColumnFilter(props.columnId, filterValue);
     });
 </script>
