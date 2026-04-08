@@ -7,3 +7,4 @@ export { default as DataTableSearch } from "./DataTableSearch.vue";
 export { default as DataTableFilterToolbar } from "./DataTableFilterToolbar.vue";
 export { default as DataTableFilterPicker } from "./DataTableFilterPicker.vue";
 export { default as DataTableFilterPopover } from "./DataTableFilterPopover.vue";
+export { default as DataTableFilterTextPopoverContent } from "./filter-editors/DataTableFilterTextPopoverContent.vue";

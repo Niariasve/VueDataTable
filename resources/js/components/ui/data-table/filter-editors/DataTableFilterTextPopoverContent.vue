@@ -1,5 +1,6 @@
 <script setup lang='ts' generic='TData'>
     import { Funnel, Search } from 'lucide-vue-next';
+    import { computed, ref, watch } from 'vue';
     import {
         Select,
         SelectContent,
@@ -8,11 +9,10 @@
         SelectTrigger,
         SelectValue,
     } from '@/components/ui/select'
-    import { Input } from '../input';
+    import { Input } from '@/components/ui/input';
     import { resolveOperators } from '@/lib/data-table/operators';
-    import { computed, ref, watch } from 'vue';
     import { TextDraftValue, TextFilterOperator, TextOperator } from '@/lib/data-table/types';
-    import { useDataTableFilters } from './useDataTableFilters';
+    import { useDataTableFilters } from '../useDataTableFilters';
     import { FilterRegistryItem, getFilterRegistryItem } from '@/lib/data-table/filter-registry';
 
     interface DataTableFilterTextPopoverProps {
@@ -28,7 +28,6 @@
             filter => filter.id === props.columnId
         ),
     );
-
 
     const search = ref<string>(
         draftFilter.value?.draftValue.value ?? '',

@@ -5,6 +5,5 @@ export type DraftFilter = {
     id: string;
     label: string;
     type: DataTableColumnType;
-    open: boolean;
     draftValue: TextDraftValue;
 };

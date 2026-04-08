@@ -39,7 +39,6 @@ export function useDataTableFilterState<TData>({
             id: columnId,
             label,
             type,
-            open: false,
             draftValue: registryItem.getDefaultDraftValue(),
         });
     }
