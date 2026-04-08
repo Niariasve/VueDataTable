@@ -6,7 +6,7 @@
         draftFilter: DraftFilter,
     }
 
-    const props = defineProps<DataTableFilterPopoverProps>();
+    defineProps<DataTableFilterPopoverProps>();
 </script>
 
 <template>
@@ -14,7 +14,7 @@
         <DataTableFilterTextPopoverContent :columnId="draftFilter.id" />
     </div>
     <div v-else>
-        Nothing.
+        Filter type not supported yet.
     </div>
 </template>
 
