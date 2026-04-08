@@ -9,3 +9,9 @@ export type {
     TextFilterValue,
     TextOperator,
 } from './text';
+export type {
+    SelectDraftValue,
+    SelectFilterOperator,
+    SelectFilterValue,
+    SelectOption,
+} from './select';
