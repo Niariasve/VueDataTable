@@ -33,7 +33,7 @@
     );
 
     const handleSelectFilter = (columnId: string): void => {
-        if (filters.filterState.isDraftOpen(columnId)) {
+        if (filters.filterState.hasDraftFilter(columnId)) {
             filters.filterState.removeDraftFilter(columnId);
             return;
         }
@@ -61,7 +61,7 @@
                     <DropdownMenuSeparator />
 
                     <DropdownMenuCheckboxItem v-for="column in columns" :key="column.id" class="capitalize"
-                        :model-value="filters.filterState.isDraftOpen(column.id)"
+                        :model-value="filters.filterState.hasDraftFilter(column.id)"
                         @select="handleSelectFilter(column.id)">
                         {{ column.columnDef.meta?.dataTable.label ?? column.id }}
                     </DropdownMenuCheckboxItem>

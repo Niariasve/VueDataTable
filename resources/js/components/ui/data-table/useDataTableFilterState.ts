@@ -13,7 +13,7 @@ export interface StateController {
     addDraftFilter: (columnId: string) => void;
     removeDraftFilter: (columnId: string) => void;
     updateDraftFilter: (columnId: string, value: any) => void;
-    isDraftOpen: (columnId: string) => boolean;
+    hasDraftFilter: (columnId: string) => boolean;
 }
 
 export function useDataTableFilterState<TData>({
@@ -21,13 +21,13 @@ export function useDataTableFilterState<TData>({
 }: StateOptions<TData>): StateController {
     const draftFilters = ref<DraftFilter[]>([]);
 
-    const isDraftOpen = (columnId: string): boolean =>
+    const hasDraftFilter = (columnId: string): boolean =>
         draftFilters.value.some(filter => filter.id === columnId)
 
     const addDraftFilter = (columnId: string) => {
         const column = table.getColumn(columnId);
 
-        if (!column || isDraftOpen(columnId)) return;
+        if (!column || hasDraftFilter(columnId)) return;
 
         const columnDefMeta = column.columnDef.meta;
         const label = columnDefMeta?.dataTable.label ?? column.id;
@@ -67,6 +67,6 @@ export function useDataTableFilterState<TData>({
         addDraftFilter,
         removeDraftFilter,
         updateDraftFilter,
-        isDraftOpen,
+        hasDraftFilter,
     }
 }
