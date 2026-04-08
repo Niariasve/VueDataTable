@@ -1,6 +1,4 @@
+import type { DraftValueBase } from '../draft-value-base';
 import type { TextFilterOperator } from './text-filter-operator';
 
-export type TextDraftValue = {
-    operator: TextFilterOperator;
-    value: string;
-};
+export type TextDraftValue = DraftValueBase<TextFilterOperator, string>;
