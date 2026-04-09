@@ -1,4 +1,4 @@
-import type { TextOperator } from "./types";
+import type { SelectOperator, TextOperator } from "./types";
 
 export const textOperators: TextOperator[] = [
     { id: 'contains', label: 'contains', requiresValue: true },
@@ -10,6 +10,13 @@ export const textOperators: TextOperator[] = [
     { id: 'is_empty', label: 'is empty', requiresValue: false },
     { id: 'is_not_empty', label: 'is not empty', requiresValue: false },
 ];
+
+export const selectOperators: SelectOperator[] = [
+    { id: 'is_in', label: 'is in', requiresValue: true },
+    { id: 'is_not_in', label: 'is not in', requiresValue: true },
+    { id: 'equals', label: 'equals', requiresValue: true },
+    { id: 'not_equals', label: 'not equals', requiresValue: true}
+]
 
 export const resolveOperators = <TOperator extends string, TOption extends { id: TOperator }>(options: {
     baseOperators: TOption[];
