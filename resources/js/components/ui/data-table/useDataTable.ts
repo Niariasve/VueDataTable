@@ -10,6 +10,7 @@ import {
 import type { ColumnFiltersState } from '@tanstack/vue-table';
 import { MaybeRefOrGetter, type Ref, ref, toValue } from 'vue';
 import { valueUpdater } from '@/components/ui/table/utils';
+import { dataTableFilterFns } from '@/lib/data-table/filter-fns';
 import { StateController, useDataTableFilterState } from './useDataTableFilterState';
 
 export interface UseDataTableOptions<TData> {
@@ -44,6 +45,7 @@ export function useDataTable<TData>({
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        filterFns: dataTableFilterFns,
         globalFilterFn: 'includesString',
         state: {
             get columnFilters() {

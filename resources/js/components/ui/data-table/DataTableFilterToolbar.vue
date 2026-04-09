@@ -1,4 +1,5 @@
 <script setup lang='ts' generic='TData'>
+    import type { DraftFilter } from '@/lib/data-table/types';
     import { CaseSensitive, ListFilter, X } from 'lucide-vue-next';
     import { Popover, PopoverContent, PopoverTrigger } from '../popover';
     import { useDataTableFilters } from './useDataTableFilters';
@@ -10,6 +11,18 @@
     const filters = useDataTableFilters<TData>();
 
     const draftFilters = computed(() => filters.filterState.draftFilters.value);
+
+    const getDraftSummaryValue = (filter: DraftFilter): string => {
+        if (filter.type === 'text') {
+            return filter.draftValue.value;
+        }
+
+        if ('value' in filter.draftValue) {
+            return filter.draftValue.value;
+        }
+
+        return filter.draftValue.values.join(', ');
+    };
 </script>
 
 <template>
@@ -25,8 +38,8 @@
                             <span>
                                 {{ filter.draftValue.operator }}
                             </span>
-                            <span v-if="filter.draftValue.value">
-                                {{ filter.draftValue.value }}
+                            <span v-if="getDraftSummaryValue(filter)">
+                                {{ getDraftSummaryValue(filter) }}
                             </span>
                         </Button>
                     </PopoverTrigger>

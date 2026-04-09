@@ -11,6 +11,7 @@
     } from '@/components/ui/select'
     import { Input } from '@/components/ui/input';
     import { resolveOperators } from '@/lib/data-table/operators';
+    import type { DraftFilter } from '@/lib/data-table/types';
     import { TextDraftValue, TextFilterOperator, TextOperator } from '@/lib/data-table/types';
     import { useDataTableFilters } from '../useDataTableFilters';
     import { FilterRegistryItem, getFilterRegistryItem } from '@/lib/data-table/filter-registry';
@@ -23,11 +24,13 @@
 
     const filters = useDataTableFilters<TData>();
 
-    const draftFilter = computed(() =>
-        filters.filterState.draftFilters.value.find(
-            filter => filter.id === props.columnId
-        ),
-    );
+    const draftFilter = computed(() => {
+        const filter = filters.filterState.draftFilters.value.find(
+            item => item.id === props.columnId,
+        );
+
+        return filter?.type === 'text' ? filter : undefined;
+    });
 
     const search = ref<string>(
         draftFilter.value?.draftValue.value ?? '',
@@ -42,21 +45,29 @@
         filters.table.getColumn(props.columnId),
     );
 
-    const meta = computed(() =>
-        column.value?.columnDef.meta,
-    )
+    const meta = computed(() => {
+        const dataTableMeta = column.value?.columnDef.meta?.dataTable;
 
-    const registryItem = computed<FilterRegistryItem<TextOperator, TextDraftValue>>(() => 
-        getFilterRegistryItem(meta.value?.dataTable.type ?? 'text')
-    );
+        if (dataTableMeta?.type !== 'text') {
+            return undefined;
+        }
+
+        return dataTableMeta;
+    });
+
+    const registryItem =
+        getFilterRegistryItem('text') as FilterRegistryItem<
+            TextOperator,
+            TextDraftValue
+        >;
 
     const allowedOperators = computed(() =>
         resolveOperators({
-            baseOperators: registryItem.value.operators,
-            operators: meta.value?.dataTable.operators,
-            excludedOperators: meta.value?.dataTable.excludedOperators,
-        })
-    )
+            baseOperators: registryItem.operators,
+            operators: meta.value?.operators,
+            excludedOperators: meta.value?.excludedOperators,
+        }),
+    );
 
     const operatorRef = ref<TextFilterOperator>(
         draftFilter.value?.draftValue.operator ?? allowedOperators.value[0].id,
@@ -68,7 +79,7 @@
             value: searchValue,
         };
 
-        const filterValue = registryItem.value.toAppliedFilterValue(draftValue);
+        const filterValue = registryItem.toAppliedFilterValue(draftValue);
 
         filters.filterState.updateDraftFilter(props.columnId, draftValue);
 

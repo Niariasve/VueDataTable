@@ -1,5 +1,5 @@
 import type { FilterFn, Row } from '@tanstack/vue-table';
-import type { TextFilterValue } from './types';
+import type { SelectFilterValue, TextFilterValue } from './types';
 
 const normalizeText = (value: unknown): string => {
     if (value == null) {
@@ -9,7 +9,7 @@ const normalizeText = (value: unknown): string => {
     const textValue = String(value).trim().toLowerCase();
 
     return textValue;
-}
+};
 
 export const dataTableTextFilterFn: FilterFn<any> = (
     row: Row<any>,
@@ -50,8 +50,34 @@ export const dataTableTextFilterFn: FilterFn<any> = (
         default:
             return true;
     }
-}
+};
+
+export const dataTableSelectFilterFn: FilterFn<any> = (
+    row: Row<any>,
+    columnId: string,
+    filterValue: SelectFilterValue = { operator: 'equals', value: '' },
+) => {
+    const rawValue = row.getValue(columnId);
+    const normalizedValue = normalizeText(rawValue);
+
+    if ('values' in filterValue) {
+        const normalizedValues = filterValue.values.map((value) =>
+            normalizeText(value),
+        );
+
+        return filterValue.operator === 'is_in'
+            ? normalizedValues.includes(normalizedValue)
+            : !normalizedValues.includes(normalizedValue);
+    }
+
+    const normalizedFilterValue = normalizeText(filterValue.value);
+
+    return filterValue.operator === 'equals'
+        ? normalizedValue === normalizedFilterValue
+        : normalizedValue !== normalizedFilterValue;
+};
 
 export const dataTableFilterFns = {
     dataTableText: dataTableTextFilterFn,
-}
+    dataTableSelect: dataTableSelectFilterFn,
+};
