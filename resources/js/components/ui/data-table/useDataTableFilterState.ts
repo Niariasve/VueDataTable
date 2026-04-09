@@ -1,5 +1,4 @@
-import { resolveOperators, textOperators } from '@/lib/data-table/operators';
-import { DraftFilter } from '@/lib/data-table/types';
+import type { DraftFilter, SelectDraftValue, TextDraftValue } from '@/lib/data-table/types';
 import { Table } from '@tanstack/vue-table';
 import { ref, Ref } from 'vue';
 import { getFilterRegistryItem } from '@/lib/data-table/filter-registry';
@@ -33,14 +32,31 @@ export function useDataTableFilterState<TData>({
         const label = columnDefMeta?.dataTable.label ?? column.id;
         const type = columnDefMeta?.dataTable.type ?? 'text';
 
-        const registryItem = getFilterRegistryItem(type);
+        if (type === 'text') {
+            const draftValue = getFilterRegistryItem(type)
+                .getDefaultDraftValue() as TextDraftValue;
 
-        draftFilters.value.push({
-            id: columnId,
-            label,
-            type,
-            draftValue: registryItem.getDefaultDraftValue(),
-        });
+            draftFilters.value.push({
+                id: columnId,
+                label,
+                type,
+                draftValue,
+            });
+
+            return;
+        }
+
+        if (type === 'select' || type === 'status') {
+            const draftValue = getFilterRegistryItem(type)
+                .getDefaultDraftValue() as SelectDraftValue;
+
+            draftFilters.value.push({
+                id: columnId,
+                label,
+                type,
+                draftValue,
+            });
+        }
     }
 
     const removeDraftFilter = (columnId: string): void => {
