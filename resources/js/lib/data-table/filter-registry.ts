@@ -1,5 +1,5 @@
-import { textOperators } from "./operators";
-import type { DataTableColumnType, TextDraftValue, TextOperator } from "./types";
+import { selectOperators, textOperators } from "./operators";
+import type { DataTableColumnType, SelectDraftValue, TextDraftValue, TextOperator } from "./types";
 
 export type FilterRegistryItem<TOperatorOption, TDraftValue> = {
     operators: TOperatorOption[];
@@ -22,6 +22,23 @@ const filterRegistry = {
                 }
         )
     } as FilterRegistryItem<TextOperator, TextDraftValue>,
+    select: {
+        operators: selectOperators,
+        getDefaultDraftValue: () => ({ operator: 'equals', value: ''}),
+        toAppliedFilterValue: (draftValue: SelectDraftValue) => {
+            if ('values' in draftValue) {
+                return {
+                    operator: draftValue.operator,
+                    values: draftValue.values,
+                };
+            }
+        
+            return {
+                operator: draftValue.operator,
+                value: draftValue.value,
+            };
+        },
+    }
 }
 
 export const getFilterRegistryItem = (type: DataTableColumnType) => {
