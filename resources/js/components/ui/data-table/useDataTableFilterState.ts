@@ -1,7 +1,9 @@
-import type { DraftFilter, SelectDraftValue, TextDraftValue } from '@/lib/data-table/types';
+import type {
+    DraftFilter,
+} from '@/lib/data-table/types';
 import { Table } from '@tanstack/vue-table';
 import { ref, Ref } from 'vue';
-import { getFilterRegistryItem } from '@/lib/data-table/filter-registry';
+import { createDraftFilter } from '@/lib/data-table/filter-registry';
 
 export interface StateOptions<TData> {
     table: Table<TData>
@@ -29,34 +31,16 @@ export function useDataTableFilterState<TData>({
         if (!column || hasDraftFilter(columnId)) return;
 
         const columnDefMeta = column.columnDef.meta;
-        const label = columnDefMeta?.dataTable.label ?? column.id;
-        const type = columnDefMeta?.dataTable.type ?? 'text';
+        const dataTableMeta = columnDefMeta?.dataTable;
+        const label = dataTableMeta?.label ?? column.id;
 
-        if (type === 'text') {
-            const draftValue = getFilterRegistryItem(type)
-                .getDefaultDraftValue() as TextDraftValue;
-
-            draftFilters.value.push({
-                id: columnId,
+        draftFilters.value.push(
+            createDraftFilter({
+                columnId,
                 label,
-                type,
-                draftValue,
-            });
-
-            return;
-        }
-
-        if (type === 'select' || type === 'status') {
-            const draftValue = getFilterRegistryItem(type)
-                .getDefaultDraftValue() as SelectDraftValue;
-
-            draftFilters.value.push({
-                id: columnId,
-                label,
-                type,
-                draftValue,
-            });
-        }
+                meta: dataTableMeta,
+            }),
+        );
     }
 
     const removeDraftFilter = (columnId: string): void => {
