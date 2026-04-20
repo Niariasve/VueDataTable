@@ -7,5 +7,5 @@ export { default as DataTableSearch } from "./DataTableSearch.vue";
 export { default as DataTableFilterToolbar } from "./DataTableFilterToolbar.vue";
 export { default as DataTableFilterPicker } from "./DataTableFilterPicker.vue";
 export { default as DataTableFilterPopover } from "./DataTableFilterPopover.vue";
-export { default as DataTableFilterTextPopoverContent } from "./filter-editors/DataTableFilterTextPopoverContent.vue";
-export { default as DataTableFilterSelectPopoverContent } from "./filter-editors/DataTableFilterSelectPopoverContent.vue";
+export { default as DataTableFilterTextPopoverContent } from "./filter-editors/text-filter/DataTableFilterTextPopoverContent.vue";
+export { default as DataTableFilterSelectPopoverContent } from "./filter-editors/select-filter/DataTableFilterSelectPopoverContent.vue";
