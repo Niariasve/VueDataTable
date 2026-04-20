@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="TData">
+    import type { DataTablePrimaryAction } from './types';
     import { provide, toRef } from 'vue';
     import { FolderOpen } from 'lucide-vue-next';
     import {
@@ -29,9 +30,13 @@
     const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
         data: TData[],
+        primaryAction?: DataTablePrimaryAction,
         showFooter?: boolean,
     }>(), {
         showFooter: true,
+        primaryAction: () => ({
+            label: 'New',
+        }),
     });
 
     const filters = useDataTable({
@@ -44,7 +49,7 @@
 
 <template>
     <div class="flex flex-col gap-2">
-        <DataTableActions :table="filters.table" />
+        <DataTableActions :table="filters.table" :primary-action="primaryAction" />
         <div>
             <DataTableFilterToolbar />
         </div>

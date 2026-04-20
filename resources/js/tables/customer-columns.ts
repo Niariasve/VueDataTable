@@ -26,7 +26,7 @@ export const customerColumns = [
             dataTable: {
                 label: 'Full Name',
                 type: 'text',
-                excludedOperators: ['is_empty', 'is_not_empty', 'contains'],
+                excludedOperators: ['is_empty', 'is_not_empty'],
             },
         },
     }),

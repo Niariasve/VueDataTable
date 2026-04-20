@@ -9,3 +9,4 @@ export { default as DataTableFilterPicker } from "./DataTableFilterPicker.vue";
 export { default as DataTableFilterPopover } from "./DataTableFilterPopover.vue";
 export { default as DataTableFilterTextPopoverContent } from "./filter-editors/text-filter/DataTableFilterTextPopoverContent.vue";
 export { default as DataTableFilterSelectPopoverContent } from "./filter-editors/select-filter/DataTableFilterSelectPopoverContent.vue";
+export type { DataTablePrimaryAction } from './types';

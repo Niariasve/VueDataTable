@@ -1,15 +1,21 @@
 <script setup lang='ts' generic="TData">
-    import { ButtonGroup } from '@/components/ui/button-group'
     import { Button } from '@/components/ui/button';
+    import { ButtonGroup } from '@/components/ui/button-group'
     import { DataTableColumnToggle, DataTableFilterPicker, DataTableSearch } from '@/components/ui/data-table';
+    import type { DataTablePrimaryAction } from '@/components/ui/data-table/types';
     import { Table } from '@tanstack/vue-table';
     import { ChevronsUpDown } from 'lucide-vue-next';
 
     interface DataTableActionsProps {
         table: Table<TData>,
+        primaryAction?: DataTablePrimaryAction,
     }
 
-    defineProps<DataTableActionsProps>();
+    withDefaults(defineProps<DataTableActionsProps>(), {
+        primaryAction: () => ({
+            label: 'New',
+        }),
+    });
 </script>
 
 <template>
@@ -26,7 +32,14 @@
             </ButtonGroup>
 
             <ButtonGroup>
-                <Button class="px-6" variant="outline">New</Button>
+                <Button
+                    class="px-6"
+                    type="button"
+                    variant="outline"
+                    @click="primaryAction?.onClick?.()"
+                >
+                    {{ primaryAction?.label ?? 'New' }}
+                </Button>
             </ButtonGroup>
         </ButtonGroup>
     </div>
