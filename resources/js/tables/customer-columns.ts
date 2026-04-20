@@ -1,11 +1,11 @@
 import { createColumnHelper } from '@tanstack/vue-table';
 import { h } from 'vue';
 import CustomersTableActions from '@/components/CustomersTableActions.vue';
-import { DataTableColumnHeader } from '@/components/ui/data-table';
 import {
+    DataTableColumnHeader,
     dataTableSelectFilterFn,
     dataTableTextFilterFn,
-} from '@/lib/data-table/filter-fns';
+} from '@/data-table';
 import { cn, formatDate } from '@/lib/utils';
 import type { Customer } from '@/types/customer';
 
