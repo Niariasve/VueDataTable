@@ -25,6 +25,7 @@
     import DataTableFilterToolbar from '@/data-table/DataTableFilterToolbar.vue';
     import DataTablePagination from '@/data-table/DataTablePagination.vue';
     import type { DataTablePrimaryAction } from '@/data-table/primary-action';
+    import type { DataTableBulkAction, DataTableRowSelectionConfig } from '@/data-table/types';
     import { useDataTable } from '@/data-table/useDataTable';
     import { dataTableFiltersKey } from '@/data-table/useDataTableFilters';
 
@@ -34,6 +35,8 @@
         data: TData[],
         primaryAction?: DataTablePrimaryAction,
         showFooter?: boolean,
+        rowSelection?: boolean | DataTableRowSelectionConfig<TData>,
+        bulkActions?: DataTableBulkAction<TData>[],
     }>(), {
         showFooter: true,
         primaryAction: () => ({

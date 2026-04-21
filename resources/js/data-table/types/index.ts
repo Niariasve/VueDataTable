@@ -15,3 +15,5 @@ export type {
     SelectOption,
     SelectOperator,
 } from './select';
+export type { DataTableRowSelectionConfig } from './data-table-row-selection-config';
+export type { DataTableBulkAction } from './data-table-bulk-action';
