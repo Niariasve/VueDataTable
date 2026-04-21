@@ -1,18 +1,17 @@
+import  type { ColumnDef, Table, ColumnFiltersState } from '@tanstack/vue-table';
 import {
-    ColumnDef,
-    Table,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
     useVueTable,
 } from '@tanstack/vue-table';
-import type { ColumnFiltersState } from '@tanstack/vue-table';
-import { MaybeRefOrGetter, type Ref, ref, toValue } from 'vue';
+import type { MaybeRefOrGetter, Ref } from 'vue';
+import { ref, toValue } from 'vue';
 import { valueUpdater } from '@/components/ui/table/utils';
 import { dataTableFilterFns } from '@/data-table/filter-fns';
+import type { StateController } from '@/data-table/useDataTableFilterState';
 import {
-    StateController,
     useDataTableFilterState,
 } from '@/data-table/useDataTableFilterState';
 

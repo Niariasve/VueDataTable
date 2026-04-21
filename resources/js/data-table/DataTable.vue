@@ -1,11 +1,17 @@
 <script setup lang="ts" generic="TData">
-    import type { DataTablePrimaryAction } from '@/data-table/primary-action';
-    import { provide, toRef } from 'vue';
-    import { FolderOpen } from 'lucide-vue-next';
-    import {
+    import type {
         ColumnDef,
         FlexRender,
     } from '@tanstack/vue-table';
+    import { FolderOpen } from 'lucide-vue-next';
+    import { provide, toRef } from 'vue';
+    import {
+        Empty,
+        EmptyDescription,
+        EmptyHeader,
+        EmptyMedia,
+        EmptyTitle,
+    } from '@/components/ui/empty'
     import {
         Table,
         TableBody,
@@ -15,16 +21,10 @@
         TableHeader,
         TableRow,
     } from '@/components/ui/table'
-    import {
-        Empty,
-        EmptyDescription,
-        EmptyHeader,
-        EmptyMedia,
-        EmptyTitle,
-    } from '@/components/ui/empty'
     import DataTableActions from '@/data-table/DataTableActions.vue';
     import DataTableFilterToolbar from '@/data-table/DataTableFilterToolbar.vue';
     import DataTablePagination from '@/data-table/DataTablePagination.vue';
+    import type { DataTablePrimaryAction } from '@/data-table/primary-action';
     import { useDataTable } from '@/data-table/useDataTable';
     import { dataTableFiltersKey } from '@/data-table/useDataTableFilters';
 

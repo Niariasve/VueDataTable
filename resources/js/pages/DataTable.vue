@@ -1,9 +1,9 @@
 <script setup lang='ts'>
+    import { ref } from 'vue';
     import type { DataTablePrimaryAction } from '@/data-table';
     import { DataTable } from '@/data-table';
     import { customerColumns } from '@/tables/customer-columns';
     import type { Customer } from '@/types/customer';
-    import { ref } from 'vue';
 
     const isCreateFormOpen = ref(false);
 
