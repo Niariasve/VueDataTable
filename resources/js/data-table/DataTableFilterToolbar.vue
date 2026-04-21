@@ -1,12 +1,12 @@
 <script setup lang='ts' generic='TData'>
-    import type { DraftFilter } from '@/data-table/types';
     import { CaseSensitive, ListFilter, X } from 'lucide-vue-next';
-    import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-    import { useDataTableFilters } from '@/data-table/useDataTableFilters';
     import { computed } from 'vue';
-    import { ButtonGroup } from '@/components/ui/button-group';
     import { Button } from '@/components/ui/button';
+    import { ButtonGroup } from '@/components/ui/button-group';
+    import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
     import DataTableFilterPopover from '@/data-table/DataTableFilterPopover.vue';
+    import type { DraftFilter } from '@/data-table/types';
+    import { useDataTableFilters } from '@/data-table/useDataTableFilters';
 
     const filters = useDataTableFilters<TData>();
 
