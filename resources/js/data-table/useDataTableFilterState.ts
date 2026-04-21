@@ -1,9 +1,10 @@
+import type { Table } from '@tanstack/vue-table';
+import { ref } from 'vue';
+import type { Ref } from 'vue';
+import { createDraftFilter } from '@/data-table/filter-registry';
 import type {
     DraftFilter,
 } from '@/data-table/types';
-import { Table } from '@tanstack/vue-table';
-import { ref, Ref } from 'vue';
-import { createDraftFilter } from '@/data-table/filter-registry';
 
 export interface StateOptions<TData> {
     table: Table<TData>
@@ -28,7 +29,9 @@ export function useDataTableFilterState<TData>({
     const addDraftFilter = (columnId: string) => {
         const column = table.getColumn(columnId);
 
-        if (!column || hasDraftFilter(columnId)) return;
+        if (!column || hasDraftFilter(columnId)) {
+            return;
+        }
 
         const columnDefMeta = column.columnDef.meta;
         const dataTableMeta = columnDefMeta?.dataTable;
@@ -57,7 +60,9 @@ export function useDataTableFilterState<TData>({
     ): void => {
         const filter = draftFilters.value.find(filter => filter.id === columnId);
 
-        if (!filter) return;
+        if (!filter) {
+            return
+        }
 
         filter.draftValue = value;
     }
