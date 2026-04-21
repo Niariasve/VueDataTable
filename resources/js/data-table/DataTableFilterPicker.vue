@@ -1,7 +1,8 @@
 <script setup lang='ts' generic="TData">
-    import { computed, ref } from 'vue';
-    import { ListFilter } from 'lucide-vue-next';
     import { Table } from '@tanstack/vue-table';
+    import { ListFilter } from 'lucide-vue-next';
+    import { computed } from 'vue';
+    import { Button } from '@/components/ui/button';
     import {
         DropdownMenu,
         DropdownMenuCheckboxItem,
@@ -16,7 +17,6 @@
         TooltipProvider,
         TooltipTrigger,
     } from '@/components/ui/tooltip'
-    import { Button } from '@/components/ui/button';
     import { useDataTableFilters } from '@/data-table/useDataTableFilters';
 
     interface FilterProps {
@@ -35,6 +35,7 @@
     const handleSelectFilter = (columnId: string): void => {
         if (filters.filterState.hasDraftFilter(columnId)) {
             filters.filterState.removeDraftFilter(columnId);
+            
             return;
         }
 
