@@ -1,8 +1,8 @@
 <script setup lang='ts' generic="TData">
     import type { Table } from '@tanstack/vue-table';
-    import { computed } from 'vue';
     import { Eye } from 'lucide-vue-next';
-    import { Button, ButtonVariants } from '@/components/ui/button'
+    import { computed } from 'vue';
+    import { Button } from '@/components/ui/button'
     import {
         DropdownMenu,
         DropdownMenuCheckboxItem,
