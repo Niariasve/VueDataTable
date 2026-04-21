@@ -1,7 +1,7 @@
 <script setup lang='ts' generic='TData'>
-    import type { DraftFilter } from '@/data-table/types';
     import DataTableFilterSelectPopoverContent from '@/data-table/filter-editors/select-filter/DataTableFilterSelectPopoverContent.vue';
     import DataTableFilterTextPopoverContent from '@/data-table/filter-editors/text-filter/DataTableFilterTextPopoverContent.vue';
+    import type { DraftFilter } from '@/data-table/types';
 
     interface DataTableFilterPopoverProps {
         draftFilter: DraftFilter,
