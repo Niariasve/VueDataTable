@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="TData">
-    import { type Table } from '@tanstack/vue-table'
+    import type { Table } from '@tanstack/vue-table'
     import { ChevronLeft, ChevronRight, ArrowLeftToLine, ArrowRightToLine } from 'lucide-vue-next'
     import { Button } from '@/components/ui/button'
     import {
