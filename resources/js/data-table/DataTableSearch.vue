@@ -1,6 +1,6 @@
 <script setup lang='ts' generic="TData">
-    import { X } from 'lucide-vue-next';
     import { Table } from '@tanstack/vue-table';
+    import { X } from 'lucide-vue-next';
     import {
         InputGroup,
         InputGroupAddon,
@@ -17,9 +17,7 @@
 
     const {
         search,
-        filterBy,
         showClearSearch,
-        resetColumnFilters,
         clearSearch
     } = useDataTableSearch({ table: props.table });
 </script>
