@@ -27,7 +27,6 @@
     import { useDataTable } from '@/data-table/useDataTable';
     import { dataTableFiltersKey } from '@/data-table/useDataTableFilters';
 
-
     const props = withDefaults(defineProps<{
         columns: ColumnDef<TData, any>[],
         data: TData[],
