@@ -1,8 +1,6 @@
 <script setup lang="ts" generic="TData">
-    import type {
-        ColumnDef,
-        FlexRender,
-    } from '@tanstack/vue-table';
+    import type { ColumnDef } from '@tanstack/vue-table';
+    import { FlexRender } from '@tanstack/vue-table';
     import { FolderOpen } from 'lucide-vue-next';
     import { provide, toRef } from 'vue';
     import {
