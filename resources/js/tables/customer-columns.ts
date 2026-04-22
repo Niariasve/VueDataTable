@@ -1,6 +1,7 @@
 import { createColumnHelper } from '@tanstack/vue-table';
 import { h } from 'vue';
 import CustomersTableActions from '@/components/CustomersTableActions.vue';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     DataTableColumnHeader,
     dataTableSelectFilterFn,
@@ -12,6 +13,20 @@ import type { Customer } from '@/types/customer';
 const columnHelper = createColumnHelper<Customer>();
 
 export const customerColumns = [
+    columnHelper.display({
+        id: 'select',
+        header: ({ table }) => h(Checkbox, {
+            'modelValue': table.getIsAllPageRowsSelected(),
+            'onUpdate:modelValue': (value: boolean | "indeterminate") => table.toggleAllPageRowsSelected(!!value),
+            'ariaLabel': 'Select All',
+        }),
+        cell: ({ row }) => h(Checkbox, {
+            'modelValue': row.getIsSelected(),
+            'onUpdate:modelValue': (value: boolean | "indeterminate") => row.toggleSelected(!!value),
+            'ariaLabel': 'Select Row',
+        }),
+        enableHiding: false,
+    }),
     columnHelper.accessor((row) => `${row.first_name} ${row.last_name}`, {
         id: 'full_name',
         header: ({ column }) => {
