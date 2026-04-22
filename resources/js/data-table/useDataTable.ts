@@ -36,6 +36,8 @@ export function useDataTable<TData>({
     
     const columnFilters = ref<ColumnFiltersState>([]);
 
+    const rowSelection = ref({});
+
     const table = useVueTable({
         get data() {
             return toValue(data);
@@ -53,9 +55,14 @@ export function useDataTable<TData>({
             get columnFilters() {
                 return columnFilters.value;
             },
+            get rowSelection() {
+                return rowSelection.value;
+            }
         },
         onColumnFiltersChange: updaterOrValue =>
             valueUpdater(updaterOrValue, columnFilters),
+        onRowSelectionChange: updaterOrValue =>
+            valueUpdater(updaterOrValue, rowSelection),
     });
 
     const filterState = useDataTableFilterState<TData>({ table });
