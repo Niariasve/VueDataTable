@@ -41,24 +41,28 @@
         }),
     });
 
-    const filters = useDataTable({
+    const dataTable = useDataTable({
         data: toRef(props, 'data'),
         columns: toRef(props, 'columns'),
     });
 
-    provide(dataTableFiltersKey, filters);
+    provide(dataTableFiltersKey, dataTable);
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <DataTableActions :table="filters.table" :primary-action="primaryAction" />
+        <DataTableActions
+            :table="dataTable.table"
+            :primary-action="primaryAction"
+            :bulk-actions="bulkActions"
+        />
         <div>
             <DataTableFilterToolbar />
         </div>
         <div class="border rounded-md">
             <Table>
                 <TableHeader>
-                    <TableRow v-for="headerGroup in filters.table.getHeaderGroups()" :key="headerGroup.id">
+                    <TableRow v-for="headerGroup in dataTable.table.getHeaderGroups()" :key="headerGroup.id">
                         <TableHead v-for="header in headerGroup.headers" :key="header.id" :colspan="header.colSpan">
                             <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
                                 :props="header.getContext()" />
@@ -66,8 +70,8 @@
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <template v-if="filters.table.getRowModel().rows?.length">
-                        <TableRow v-for="row in filters.table.getRowModel().rows" :key="row.id"
+                    <template v-if="dataTable.table.getRowModel().rows?.length">
+                        <TableRow v-for="row in dataTable.table.getRowModel().rows" :key="row.id"
                             :data-state="row.getIsSelected() ? 'selected' : undefined">
                             <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
@@ -91,7 +95,7 @@
                     </template>
                 </TableBody>
                 <TableFooter v-if="showFooter">
-                    <TableRow v-for="footerGroup in filters.table.getFooterGroups()" :key="footerGroup.id">
+                    <TableRow v-for="footerGroup in dataTable.table.getFooterGroups()" :key="footerGroup.id">
                         <TableHead v-for="header in footerGroup.headers" :key="header.id" :colspan="header.colSpan">
                             <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.footer"
                                 :props="header.getContext()" />
@@ -101,7 +105,7 @@
             </Table>
         </div>
         <div class="flex items-center justify-center md:justify-end py-4 space-x-2">
-            <DataTablePagination :table="filters.table" />
+            <DataTablePagination :table="dataTable.table" />
         </div>
     </div>
 </template>

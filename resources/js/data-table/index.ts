@@ -11,4 +11,5 @@ export { default as DataTablePagination } from './DataTablePagination.vue';
 export { default as DataTableSearch } from './DataTableSearch.vue';
 export { dataTableFilterFns, dataTableSelectFilterFn, dataTableTextFilterFn } from './filter-fns';
 export type { DataTableColumnMeta, DataTableColumnType, DraftFilter } from './types';
+export type { DataTableBulkAction } from './types';
 export type { DataTablePrimaryAction } from './primary-action';

@@ -1,6 +1,6 @@
 <script setup lang='ts'>
     import { ref } from 'vue';
-    import type { DataTablePrimaryAction } from '@/data-table';
+    import type { DataTableBulkAction, DataTablePrimaryAction } from '@/data-table';
     import { DataTable } from '@/data-table';
     import { customerColumns } from '@/tables/customer-columns';
     import type { Customer } from '@/types/customer';
@@ -14,6 +14,16 @@
         },
     };
 
+    const bulkActions: DataTableBulkAction<Customer>[] = [
+        {
+            id: 'print',
+            label: 'Print',
+            onClick: (rows) => {
+                console.log(rows);
+            }
+        }
+    ];
+
     defineProps<{
         customers: Customer[],
     }>();
@@ -26,6 +36,7 @@
                 :columns="customerColumns"
                 :data="customers"
                 :primary-action="primaryAction"
+                :bulk-actions="bulkActions"
             />
 
             <div
